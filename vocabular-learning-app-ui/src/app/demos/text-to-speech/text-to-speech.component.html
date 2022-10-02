@@ -1,0 +1,61 @@
+<div class="container-fluid" style="margin-left: 20px;">
+
+    <table class="table">
+        <tr>
+            <td style="width:100px;">
+                <label for="voice-control" class="col-sm-2 col-form-label">Voice:</label>
+            </td>
+            <td>
+                <select id="voice-control" name="voice" [(ngModel)]="selectedVoice"
+                (change)="demoSelectedVoice(); updateSayCommand()" class="form-select form-select-sm">
+                <option value="">- Select a voice -</option>
+                <option *ngFor="let voice of voices" [ngValue]="voice">
+                    {{ voice.name }}
+                    <ng-template [ngIf]="recommendedVoices[ voice.name ]">
+                        &larr; Recommended
+                    </ng-template>
+                </option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px;">
+                <label for="rate-control" class="col-sm-2 col-form-label">Speed:</label>
+            </td>
+            <td>
+                <select id="rate-control" name="rate" [(ngModel)]="selectedRate"
+                (change)="demoSelectedVoice(); updateSayCommand()" class="form-select form-select-sm">
+                <option *ngFor="let rate of rates" [ngValue]="rate">
+                    {{ rate }}
+                    <ng-template [ngIf]="( rate === 1 )">
+                        ( Normal )
+                    </ng-template>
+                </option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px;"></td>
+            <td>
+                <div>
+                    <button type="button" (click)="speak()" class="btn btn-success btn-sm">
+                        Speak text
+                    </button>
+                    <button type="button" (click)="stop()" class="btn btn-warning btn-sm" style="margin-left: 10px;">
+                        Stop speaking
+                    </button>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px;">
+                <label for="text-control" class="col-sm-2 col-form-label">Text:</label>
+            </td>
+            <td>
+                <textarea id="text-control" name="text" [(ngModel)]="text" (input)="updateSayCommand()"
+            (keydown.Meta.Enter)="speak()" style="width: 1200px;height:500px;"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

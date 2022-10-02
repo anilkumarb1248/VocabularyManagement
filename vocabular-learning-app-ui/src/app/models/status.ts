@@ -1,0 +1,3 @@
+export enum Status {
+    SUCCESS, CREATED, ERROR, BAD_REQUEST, NOT_FOUND, CONFLICT
+}

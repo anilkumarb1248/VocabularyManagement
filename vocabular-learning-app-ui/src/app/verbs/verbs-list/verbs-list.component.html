@@ -1,0 +1,65 @@
+<!-- <div class="container-fluid">
+    <ag-grid-angular
+        style="height: 570px;width:1340px;overflow:hidden" 
+      class="ag-theme-balham-dark"
+      #verbAgGrid
+        [columnDefs]="columnDefs"
+        [rowData]="verbs"
+        (rowClicked)='onRowClicked($event)'
+       
+        >
+    </ag-grid-angular>
+</div> -->
+
+
+<div>
+  <div *ngIf="!verbs && isLoaded" style="position: fixed;margin-top: 10%;margin-left: 40%;">
+      <!-- <h4 style="color:red;"> No records found </h4> <span> <small><button class="btn btn-primary btn-sm" (click)="addDummyData()">Add Dummy Data</button></small></span> -->
+      <h4 style="color:red;">No records found <span style="font-size: 11px;"><a href="#" data-toggle="tooltip"
+                  data-placement="top" title="Add Dummy Data" (click)="addInitialData()">(Add Initial Data)</a></span></h4>
+  </div>
+  <div *ngIf="verbs" style="margin-top: 10px;">
+
+      <table class="table table-sm table-bordered table-hover">
+          <tr>
+              <th>Base Form</th>
+              <th>Past Tense Form</th>
+              <th>Past Participle Form</th>
+              <th>Third Person Base Form</th>
+              <th>Progressive Form</th>
+              <th>Phonetics</th>
+              <th>Action</th>
+          </tr>
+
+          <tr *ngFor="let verb of verbs;index as i" [class]="geClass(i)">
+              <td>{{verb.baseForm}} 
+                <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.baseForm)"></span>
+              </td>
+              <td>{{verb.pastTenseForm}} 
+                <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.pastTenseForm)"></span>
+              </td>
+              <td>{{verb.pastParticipleForm}} 
+                <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.pastParticipleForm)"></span>
+              </td>
+              <td>{{verb.thirdPersonBaseForm}}
+                <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.thirdPersonBaseForm)"></span>
+              </td>
+              <td>{{verb.progressiveForm}}
+                <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.progressiveForm)"></span>
+              </td>
+              <td>{{verb.phonetics}}</td>
+              <td style="width: 100px;">
+                  <!-- <button class="btn btn-info btn-vsm" (click)="viewVerbDetails(verb)">View</button>
+                  <button class="btn btn-primary btn-vsm btn-margin-left" (click)="editVerbDetails(verb)">Edit</button> -->
+                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target='collapseExample' aria-expanded="false" aria-controls="collapseExample">
+                    View
+                  </button>
+              </td>
+              <!-- <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
+              </div> -->
+          </tr>
+      </table>
+  </div>
