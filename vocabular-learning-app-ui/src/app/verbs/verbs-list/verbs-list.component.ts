@@ -27,23 +27,11 @@ export class VerbsListComponent implements OnInit {
     "J", "K", "L", "M", "N", "O", "P", "Q", "R",
     "S", "T", "U", "V", "W", "X", "Y", "Z"
   ]
-  totalRecords:number = 0;
-
-  @ViewChild('verbAgGrid') agGrid: AgGridAngular | undefined;
-
-  // columnDefs = [
-  //   { headerName: 'Base Form', field: 'baseForm', type: 'string', sortable: true, filter: true, width: 200},
-  //   { headerName: 'Past Tense Form', field: 'pastTenseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-  //   { headerName: 'Past Participle Form', field: 'pastParticipleForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-  //   { headerName: 'Third Person Base Form', field: 'thirdPersonBaseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-  //   { headerName: 'Progressive Form', field: 'progressiveForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-  //   { headerName: 'Phonetics', field: 'phonetics', type: 'nonEditableColumn', sortable: false, filter: true, width: 175 },
-  //   { headerName: 'Action', field: 'actions', type: 'nonEditableColumn', sortable: false, filter: true, width: 140 }
-  // ];
+  totalRecords: number = 0;
+  showSpeakAllBtn:boolean = true;
 
   constructor(
     private verbService: VerbService,
-    private router: Router,
     private speaker: Speaker
   ) { }
 
@@ -79,24 +67,33 @@ export class VerbsListComponent implements OnInit {
     );
   }
 
-  onRowClicked(event: any) {
-    console.log(event.data);
-    this.speaker.speak(event.data.baseForm);
-    // $("#imagemodal").modal("show");
-  }
-
   public textToSpeak(text: string): void {
     this.speaker.speak(text);
-  }
-
-
-
-  addInitialData() {
-    throw new Error('Method not implemented.');
   }
 
   modifySearh() {
     this.loadVerbsList();
   }
 
+  speakAll()  {
+    let preparedData = "";
+    for (let verb of this.verbs) {
+      preparedData = preparedData + this.prepareString(verb) + "\n";
+    }
+    this.showSpeakAllBtn = false;
+    this.textToSpeak(preparedData);
+
+  }
+
+  stopSpeaking(){
+    this.showSpeakAllBtn = true;
+    this.speaker.stopSpeaking();
+  }
+
+  prepareString(verb:Verb):string{
+    let data = verb.baseForm + ". " + verb.pastTenseForm + ". " + verb.pastParticipleForm + ". " + verb.thirdPersonBaseForm + ". " + verb.progressiveForm + ". ";
+
+
+    return data;
+  }
 }

@@ -1,5 +1,6 @@
 package com.vocabulary.learning.app.service;
 
+import com.vocabulary.learning.app.enums.LearningStatus;
 import com.vocabulary.learning.app.model.Verb;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class InitialService {
                                 verb.setProgressiveForm(verb.getBaseForm()+"ing");
                             }
                             System.out.println(verb.toStringFormat());
+                            verb.setLearningStatus(LearningStatus.NOT_STARTED);
                             verbList.add(verb);
                         }
                     }

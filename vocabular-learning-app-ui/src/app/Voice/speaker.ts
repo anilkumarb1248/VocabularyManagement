@@ -25,6 +25,10 @@ export class Speaker {
         this.synthesizeSpeechFromText(this.voice, this.rate, text);
     }
 
+	public stopSpeaking():void {
+		this.stop();
+	}
+
     // I perform the low-level speech synthesis for the given voice, rate, and text.
 	private synthesizeSpeechFromText(voice: SpeechSynthesisVoice,rate: number,text: string): void {
 		var utterance = new SpeechSynthesisUtterance(text);

@@ -1,3 +1,5 @@
+import { LearningStatus } from "./learning-status";
+
 export class Verb {
 
     public verbId: number;
@@ -9,13 +11,11 @@ export class Verb {
     public phonetics: string;
     public meanings:string[];
     public examples:string[];
-    public baseFormExamples:string[];
-    public pastTenseExample:string[];
-    public pastParticipleFormExample:string[];
+    public learningStatus:LearningStatus;
     public createdTimeStamp: Date;
     public updatedTimeStamp: Date;
 
-    constructor(verbId:number, baseForm:string, pastTenseForm:string, pastParticipleForm:string, thirdPersonBaseForm:string,progressiveForm:string,phonetics:string,meanings:string[],examples:string[], baseFormExamples:string[],pastTenseExample:string[],pastParticipleFormExample:string[], createdTimeStamp:Date, updatedTimeStamp:Date) {
+    constructor(verbId:number, baseForm:string, pastTenseForm:string, pastParticipleForm:string, thirdPersonBaseForm:string,progressiveForm:string,phonetics:string,meanings:string[],examples:string[],learningStatus:LearningStatus, createdTimeStamp:Date, updatedTimeStamp:Date) {
         this.verbId = verbId;
         this.baseForm = baseForm;
         this.pastTenseForm = pastTenseForm;
@@ -25,9 +25,7 @@ export class Verb {
         this.phonetics = phonetics;
         this.meanings = meanings;
         this.examples = examples;
-        this.baseFormExamples = baseFormExamples;
-        this.pastTenseExample = pastTenseExample;
-        this.pastParticipleFormExample = pastParticipleFormExample;
+        this.learningStatus = learningStatus;
         this.createdTimeStamp = createdTimeStamp;
         this.updatedTimeStamp = updatedTimeStamp;
     }
@@ -102,30 +100,6 @@ export class Verb {
 
     public setExamples(examples: string[]): void {
         this.examples = examples;
-    }
-
-    public getBaseFormExamples(): string[] {
-        return this.baseFormExamples;
-    }
-
-    public setBaseFormExamples(baseFormExamples: string[]): void {
-        this.baseFormExamples = baseFormExamples;
-    }
-
-    public getPastTenseExample(): string[] {
-        return this.pastTenseExample;
-    }
-
-    public setPastTenseExample(pastTenseExample: string[]): void {
-        this.pastTenseExample = pastTenseExample;
-    }
-
-    public getPastParticipleFormExample(): string[] {
-        return this.pastParticipleFormExample;
-    }
-
-    public setPastParticipleFormExample(pastParticipleFormExample: string[]): void {
-        this.pastParticipleFormExample = pastParticipleFormExample;
     }
 
     public getCreatedTimeStamp(): Date {

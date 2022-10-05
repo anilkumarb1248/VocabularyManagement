@@ -7,6 +7,8 @@ import com.vocabulary.learning.app.repository.ImageRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +24,9 @@ public class ImageService {
     }
 
     public void saveImage(String name, byte[] image, String type, Integer verbId){
+
+        deleteImage(verbId);
+
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setName(name);
         imageEntity.setImage(image);
@@ -36,7 +41,7 @@ public class ImageService {
         if(StringUtils.isNotBlank(imageName)){
             optionalImage = imageRepository.findByName(imageName);
         }else if(verbId != null){
-            optionalImage = imageRepository.findById(verbId);
+            optionalImage = imageRepository.findByVerbId(verbId);
         }
         if(!optionalImage.isPresent()){
             throw new EntityNotFoundException("ImageEntity", "getImage", Map.of("verbId", verbId, "imageName", imageName));
@@ -50,5 +55,13 @@ public class ImageService {
         image.setType(imageEntity.getType());
         image.setVerbId(imageEntity.getVerbId());
         return image;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteImage(Integer verbId) {
+        Optional<ImageEntity> optionalImage = imageRepository.findByVerbId(verbId);
+        if(optionalImage.isPresent()){
+            imageRepository.deleteByVerbId(verbId);
+        }
     }
 }

@@ -22,41 +22,50 @@
         <div class="col">
             <input formControlName="phonetics" type="text" class="form-control input-style" placeholder="Phonetics">
         </div>
-    </div>
-
-    <div class="row" style="margin-top: 5px;">
         <div class="col">
-            <label>Meanings: <span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('meanings')"></span></label>
-            <textarea name="text" formControlName="meanings" style="width: 390px;height:150px;"></textarea>
+            <select formControlName="learningStatus" [attr.value]="verbForm.learningStatus" class="custom-select" id="learningStatusId">
+                <option value="NOT_STARTED">Not Started</option>
+                <option value="IN_PROGRESS">Inprogress</option>
+                <option value="COMPLETED">Completed</option>
+              </select>
         </div>
-        <div class="col">
-            <label>Examples:<span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('examples')"></span></label>
-            <textarea name="text" formControlName="examples" style="width: 390px;height:150px;"></textarea>
-        </div>
-        <div class="col">
-            <label>Base Form Examples:<span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('baseFormExamples')"></span></label>
-            <textarea name="text" formControlName="baseFormExamples" style="width: 390px;height:150px;"></textarea>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top: 5px;">
-        <div class="col">
-            <label>Past Tense Examples: <span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('pastTenseExample')"></span></label>
-            <textarea name="text" formControlName="pastTenseExample" style="width: 390px;height:150px;"></textarea>
-        </div>
-        <div class="col">
-            <label>Past Participle Form Examples:<span class="badge"><img src="../assets/images/speak.png"
-                        class="image-style" (click)="textToSpeak('pastParticipleFormExample')"></span></label>
-            <textarea name="text" formControlName="pastParticipleFormExample"
-                style="width: 390px;height:150px;"></textarea>
-        </div>
-        <div class="col" style="text-align:center;margin-top:80px;">
+        <div class="col" style="text-align: right;">
             <button type="submit" class="btn btn-primary btn-sm">Save</button>
         </div>
     </div>
 
+    <div class="row" style="margin-top: 5px;">
+        <div class="col">
+
+            <label for="meaningsTextAreaId">Meanings: <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                        (click)="textToSpeak('meanings')"></span></label>
+            <textarea class="form-control" id="meaningsTextAreaId" name="text" formControlName="meanings" style="width: 550px;height:150px;"></textarea>
+        </div>
+        <div class="col">
+            <label for="examplesTextAreaId">Examples:<span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                        (click)="textToSpeak('examples')"></span></label>
+            <textarea class="form-control" id="examplesTextAreaId" name="text" formControlName="examples" style="width: 550px;height:150px;"></textarea>
+        </div>
+
+        <div class="col">
+            <label for="imageId">Image: 
+                <span class="badge">
+                    <input type="button" (click)="onUpload(verbData?.verbId)" value="upload">
+                    <input type="button" (click)="loadImage(verbData?.verbId, '')" value="Load">
+                    <input type="button" (click)="deleteImage(verbData?.verbId)" value="Delete">
+            </span>
+            </label>
+            <div>
+                <div *ngIf="!retrievedImage">
+                    <input type="file" id="imageId" (change)="onFileChanged($event)">
+                </div>
+                <div *ngIf="retrievedImage">
+                    <img [src]="retrievedImage">
+                </div>
+            </div>
+           
+
+        </div>
+        
+    </div>
 </form>

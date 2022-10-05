@@ -1,6 +1,5 @@
 package com.vocabulary.learning.app.entity;
 
-import com.vocabulary.learning.app.enums.ExampleType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,10 +24,6 @@ public class ExampleEntity implements Serializable {
     @Column(name="EXAMPLE", nullable = false)
     private String example;
 
-    @Column(name="EXAMPLE_TYPE", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ExampleType exampleType;
-
     @ManyToOne
     @JoinColumn(name = "VERB_ID", nullable = false, insertable = false, updatable = false)
     private VerbEntity verbEntity;
@@ -47,14 +42,6 @@ public class ExampleEntity implements Serializable {
 
     public void setExample(String example) {
         this.example = example;
-    }
-
-    public ExampleType getExampleType() {
-        return exampleType;
-    }
-
-    public void setExampleType(ExampleType exampleType) {
-        this.exampleType = exampleType;
     }
 
     public VerbEntity getVerbEntity() {

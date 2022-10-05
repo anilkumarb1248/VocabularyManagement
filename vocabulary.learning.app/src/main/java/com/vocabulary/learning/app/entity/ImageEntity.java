@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -26,7 +27,8 @@ public class ImageEntity implements Serializable {
     @Column(name="NAME")
     private String name;
 
-    @Column(name="IMAGE", length = 1000)
+    @Lob
+    @Column(name="IMAGE", length=100000)
     private byte[] image;
 
     @Column(name = "type")
@@ -36,7 +38,7 @@ public class ImageEntity implements Serializable {
 //    @JoinColumn(name = "VERB_ID", nullable = false, insertable = false, updatable = false)
 //    private VerbEntity verbEntity;
 
-    @Column(name="VERB_ID", nullable = false)
+    @Column(name="VERB_ID", nullable = false, unique = true)
     private Integer verbId;
 
 }

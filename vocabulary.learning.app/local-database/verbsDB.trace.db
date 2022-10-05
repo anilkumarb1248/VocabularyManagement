@@ -1,6 +1,0 @@
-2022-10-05 11:51:57 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VERB" not found (this database is empty); SQL statement:
-select verbentity0_.verb_id as verb_id1_3_, verbentity0_.base_form as base_for2_3_, verbentity0_.create_timestamp as create_t3_3_, verbentity0_.past_participle_form as past_par4_3_, verbentity0_.past_tense_form as past_ten5_3_, verbentity0_.phonetics as phonetic6_3_, verbentity0_.progressive_form as progress7_3_, verbentity0_.third_person_base_form as third_pe8_3_, verbentity0_.update_timestamp as update_t9_3_ from verb verbentity0_ where verbentity0_.base_form like ? escape ? order by verbentity0_.base_form asc limit ? [42104-214]
-2022-10-05 11:52:36 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VERB" not found (this database is empty); SQL statement:
-insert into verb (verb_id, base_form, past_participle_form, past_tense_form, phonetics, progressive_form, third_person_base_form) values (default, ?, ?, ?, ?, ?, ?) [42104-214]

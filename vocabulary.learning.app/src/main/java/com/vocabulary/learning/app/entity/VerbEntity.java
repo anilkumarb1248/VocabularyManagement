@@ -1,8 +1,12 @@
 package com.vocabulary.learning.app.entity;
 
+import com.vocabulary.learning.app.enums.LearningStatus;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,12 +52,15 @@ public class VerbEntity implements Serializable {
     @JoinColumn(name="VERB_ID", nullable = false)
     private List<ExampleEntity> examples;
 
+    @Column(name="LEARNING_STATUS", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private LearningStatus learningStatus;
+
     @Column(name="CREATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false, updatable = false)
     private LocalDateTime createdTimeStamp;
 
     @Column(name="UPDATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",insertable = false, updatable = false)
     private LocalDateTime updatedTimeStamp;
-
 
     public Integer getVerbId() {
         return verbId;
@@ -141,5 +148,13 @@ public class VerbEntity implements Serializable {
 
     public void setUpdatedTimeStamp(LocalDateTime updatedTimeStamp) {
         this.updatedTimeStamp = updatedTimeStamp;
+    }
+
+    public LearningStatus getLearningStatus() {
+        return learningStatus;
+    }
+
+    public void setLearningStatus(LearningStatus learningStatus) {
+        this.learningStatus = learningStatus;
     }
 }

@@ -3,10 +3,8 @@ package com.vocabulary.learning.app.service;
 import com.vocabulary.learning.app.entity.ExampleEntity;
 import com.vocabulary.learning.app.entity.MeaningEntity;
 import com.vocabulary.learning.app.entity.VerbEntity;
-import com.vocabulary.learning.app.enums.ExampleType;
 import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.repository.ExampleRepository;
-import com.vocabulary.learning.app.repository.ImageRepository;
 import com.vocabulary.learning.app.repository.MeaningRepository;
 import com.vocabulary.learning.app.repository.VerbRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +103,6 @@ public class VerbService {
         Optional<VerbEntity> optionalVerbEntity = verbRepository.findById(verb.getVerbId());
         if (optionalVerbEntity.isPresent()) {
             entity = optionalVerbEntity.get();
-
             meaningRepository.deleteByVerbId(entity.getVerbId());
             exampleRepository.deleteByVerbId(entity.getVerbId());
         }
@@ -121,8 +118,8 @@ public class VerbService {
         verbEntity.setPastParticipleForm(verb.getPastParticipleForm());
         verbEntity.setThirdPersonBaseForm(verb.getThirdPersonBaseForm());
         verbEntity.setProgressiveForm(verb.getProgressiveForm());
+        verbEntity.setPhonetics(verb.getPhonetics());
         List<MeaningEntity> meaningEntities = new ArrayList<>();
-
         verb.getMeanings().stream().forEach(meaning -> {
             MeaningEntity meaningEntity = new MeaningEntity();
             meaningEntity.setMeaning(meaning);
@@ -147,34 +144,13 @@ public class VerbService {
         verb.getExamples().stream().forEach(example -> {
             ExampleEntity exampleEntity = new ExampleEntity();
             exampleEntity.setExample(example);
-            exampleEntity.setExampleType(ExampleType.EXAMPLE);
-            exampleEntities.add(exampleEntity);
-        });
-
-        verb.getBaseFormExamples().stream().forEach(example -> {
-            ExampleEntity exampleEntity = new ExampleEntity();
-            exampleEntity.setExample(example);
-            exampleEntity.setExampleType(ExampleType.BASE_FORM_EXAMPLE);
-            exampleEntities.add(exampleEntity);
-        });
-
-        verb.getPastTenseExample().stream().forEach(example -> {
-            ExampleEntity exampleEntity = new ExampleEntity();
-            exampleEntity.setExample(example);
-            exampleEntity.setExampleType(ExampleType.PAST_TENSE_EXAMPLE);
-            exampleEntities.add(exampleEntity);
-        });
-
-        verb.getPastParticipleFormExample().stream().forEach(example -> {
-            ExampleEntity exampleEntity = new ExampleEntity();
-            exampleEntity.setExample(example);
-            exampleEntity.setExampleType(ExampleType.PAST_PARTICIPLE_EXAMPLE);
             exampleEntities.add(exampleEntity);
         });
 
         if (!CollectionUtils.isEmpty(exampleEntities)) {
             verbEntity.setExamples(exampleEntities);
         }
+        verbEntity.setLearningStatus(verb.getLearningStatus());
 
         return verbEntity;
     }
@@ -187,6 +163,7 @@ public class VerbService {
         verb.setPastParticipleForm(entity.getPastParticipleForm());
         verb.setThirdPersonBaseForm(entity.getThirdPersonBaseForm());
         verb.setProgressiveForm(entity.getProgressiveForm());
+        verb.setPhonetics(entity.getPhonetics());
 
         entity.getMeanings().stream().forEach(meaning -> {
             verb.getMeanings().add(meaning.getMeaning());
@@ -196,24 +173,11 @@ public class VerbService {
 //        });
 
         entity.getExamples().stream().forEach(example -> {
-            switch (example.getExampleType()) {
-                case EXAMPLE:
-                    verb.getExamples().add(example.getExample());
-                    break;
-                case BASE_FORM_EXAMPLE:
-                    verb.getBaseFormExamples().add(example.getExample());
-                    break;
-                case PAST_TENSE_EXAMPLE:
-                    verb.getPastTenseExample().add(example.getExample());
-                    break;
-                case PAST_PARTICIPLE_EXAMPLE:
-                    verb.getPastParticipleFormExample().add(example.getExample());
-                    break;
-            }
+            verb.getExamples().add(example.getExample());
         });
         verb.setCreatedTimeStamp(entity.getCreatedTimeStamp());
         verb.setUpdatedTimeStamp(entity.getUpdatedTimeStamp());
-
+        verb.setLearningStatus(entity.getLearningStatus());
         return verb;
     }
 }

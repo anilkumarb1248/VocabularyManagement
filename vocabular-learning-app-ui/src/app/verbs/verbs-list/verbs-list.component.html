@@ -1,42 +1,26 @@
-<!-- <div class="container-fluid">
-    <ag-grid-angular
-        style="height: 570px;width:1340px;overflow:hidden" 
-      class="ag-theme-balham-dark"
-      #verbAgGrid
-        [columnDefs]="columnDefs"
-        [rowData]="verbs"
-        (rowClicked)='onRowClicked($event)'
-       
-        >
-    </ag-grid-angular>
-</div> -->
-
-
 <div>
   <div *ngIf="!verbs && isLoaded" style="position: fixed;margin-top: 10%;margin-left: 40%;">
-      <!-- <h4 style="color:red;"> No records found </h4> <span> <small><button class="btn btn-primary btn-sm" (click)="addDummyData()">Add Dummy Data</button></small></span> -->
-      <h4 style="color:red;">No records found <span style="font-size: 11px;"><a href="#" data-toggle="tooltip"
-                  data-placement="top" title="Add Dummy Data" (click)="addInitialData()">(Add Initial Data)</a></span></h4>
+      Loading...
   </div>
   <div *ngIf="verbs" style="margin-top: 10px;">
-
       <table class="table table-sm table-bordered table-hover">
-
         <thead class="table-dark">
           <tr>
+            <th>Verb Id</th>
             <th>Base Form</th>
             <th>Past Tense Form</th>
             <th>Past Participle Form</th>
             <th>Third Person Base Form</th>
             <th>Progressive Form</th>
             <th>Phonetics</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         <tr class="table-light">
           <th colspan="7">
             <div class="row" style="margin-top: 5px;">
               <div class="col">
-                <select [(ngModel)]="searchType" class="custom-select" id="orderSelectionId" style="width: 170px;">
+                <select [(ngModel)]="searchType" class="custom-select" id="orderSelectionId" style="width: 120px;">
                   <option selected value="starting">Starts with:</option>
                   <option value="ending">Ends with:</option>
                   <option value="anywhere">Anywhere:</option>
@@ -49,7 +33,7 @@
                 Or
               </div>
               <div class="col">
-                <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId" style="width: 140px;">
+                <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId" style="width: 80px;">
                     <option *ngFor="let letter of allLetters; index as j">{{letter}}</option>
                 </select>
               </div>
@@ -77,13 +61,19 @@
                 </select>
               </div>
 
-              <div class="col">
-                <button class="btn btn-sm btn-warning" (click)="modifySearh()">Search</button>
+              <div class="col" style="text-align: center;">
+                <button class="btn btn-vsm btn-warning" (click)="modifySearh()">Search</button>
               </div>
               <div class="col">
                 Total: {{totalRecords}}
               </div>
 
+            </div>
+          </th>
+          <th>
+            <div class="col" style="text-align: center;">
+              <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()">Speak All</button>
+              <button *ngIf="!showSpeakAllBtn"  class="btn btn-vsm btn-danger" (click)="stopSpeaking()">Stop</button>
             </div>
           </th>
       </tr>
@@ -92,6 +82,7 @@
 
         <tbody *ngFor="let verb of verbs;index as i">
           <tr [class]="geClass(i)">
+            <td>{{verb.verbId}}</td>
             <td>{{verb.baseForm}} 
               <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.baseForm)"></span>
             </td>
@@ -108,15 +99,16 @@
               <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.progressiveForm)"></span>
             </td>
             <td>{{verb.phonetics}}</td>
-            <td style="width: 100px;">
-                <!-- <button class="btn btn-info btn-vsm" (click)="viewVerbDetails(verb)">View</button>
-                <button class="btn btn-primary btn-vsm btn-margin-left" (click)="editVerbDetails(verb)">Edit</button> -->
-                <input  type="button" class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm" value="View"/>
+            <td>{{verb.learningStatus}}</td>
+            <td style="width: 80px;text-align: center;">
+                <button class="btn btn-info btn-vsm" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm">View</button>
+               <!-- <input  type="button" class="btn btn-info btn-vsm" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm" value="View"/> -->
             </td>
+            
 
         </tr>
         <tr class="collapse" id="{{verb.baseForm}}">
-          <td colspan="7">
+          <td colspan="8">
             <div class="card card-body">
               <app-view [verbData]="verb"></app-view>
             </div>
