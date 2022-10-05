@@ -1,32 +1,26 @@
 package com.vocabulary.learning.app.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "IMAGE")
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
-public class ImageEntity {
+public class ImageEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="IMAGE_ID", unique = true, nullable = false)
+    @Column(name="IMAGE_ID", unique = true)
     private Integer imageId;
 
     @Column(name="NAME")
@@ -42,7 +36,7 @@ public class ImageEntity {
 //    @JoinColumn(name = "VERB_ID", nullable = false, insertable = false, updatable = false)
 //    private VerbEntity verbEntity;
 
-    @Column(name = "verbId")
+    @Column(name="VERB_ID", nullable = false)
     private Integer verbId;
 
 }

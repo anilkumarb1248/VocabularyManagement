@@ -1,14 +1,8 @@
 package com.vocabulary.learning.app.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,17 +15,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "VERB")
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
 public class VerbEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="VERB_ID", unique = true, nullable = false)
+    @Column(name="VERB_ID", unique = true)
     private Integer verbId;
 
     @Column(name="BASE_FORM", unique = true, nullable = false)
@@ -52,41 +40,106 @@ public class VerbEntity implements Serializable {
     @Column(name="PHONETICS")
     private String phonetics;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="MEANING_ID", nullable = true)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="VERB_ID", nullable = false)
     private List<MeaningEntity> meanings;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="IMAGE_ID", nullable = true)
-//    private List<ImageEntity> images;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="EXAMPLE_ID", nullable = true)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="VERB_ID", nullable = false)
     private List<ExampleEntity> examples;
 
-
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="EXAMPLE_ID", nullable = true)
-//    private List<Example> baseFormExamples;
-//
-//
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="EXAMPLE_ID", nullable = true)
-//    private List<Example> pastTenseExample;
-//
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="EXAMPLE_ID", nullable = true)
-//    @JoinTable(name = "VERB_EXAMPLE", joinColumns = @JoinColumn(name = "VERB_ID"),
-//        inverseJoinColumns = @JoinColumn(name = "EXAMPLE_ID")
-//    )
-//    private List<Example> pastParticipleFormExample;
-
-
-    @Column(name="CREAT_TS", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false, updatable = false)
+    @Column(name="CREATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false, updatable = false)
     private LocalDateTime createdTimeStamp;
 
-    @Column(name="CREAT_TS", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",insertable = false, updatable = false)
+    @Column(name="UPDATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",insertable = false, updatable = false)
     private LocalDateTime updatedTimeStamp;
 
 
+    public Integer getVerbId() {
+        return verbId;
+    }
+
+    public void setVerbId(Integer verbId) {
+        this.verbId = verbId;
+    }
+
+    public String getBaseForm() {
+        return baseForm;
+    }
+
+    public void setBaseForm(String baseForm) {
+        this.baseForm = baseForm;
+    }
+
+    public String getPastTenseForm() {
+        return pastTenseForm;
+    }
+
+    public void setPastTenseForm(String pastTenseForm) {
+        this.pastTenseForm = pastTenseForm;
+    }
+
+    public String getPastParticipleForm() {
+        return pastParticipleForm;
+    }
+
+    public void setPastParticipleForm(String pastParticipleForm) {
+        this.pastParticipleForm = pastParticipleForm;
+    }
+
+    public String getThirdPersonBaseForm() {
+        return thirdPersonBaseForm;
+    }
+
+    public void setThirdPersonBaseForm(String thirdPersonBaseForm) {
+        this.thirdPersonBaseForm = thirdPersonBaseForm;
+    }
+
+    public String getProgressiveForm() {
+        return progressiveForm;
+    }
+
+    public void setProgressiveForm(String progressiveForm) {
+        this.progressiveForm = progressiveForm;
+    }
+
+    public String getPhonetics() {
+        return phonetics;
+    }
+
+    public void setPhonetics(String phonetics) {
+        this.phonetics = phonetics;
+    }
+
+    public List<MeaningEntity> getMeanings() {
+        return meanings;
+    }
+
+    public void setMeanings(List<MeaningEntity> meanings) {
+        this.meanings = meanings;
+    }
+
+    public List<ExampleEntity> getExamples() {
+        return examples;
+    }
+
+    public void setExamples(List<ExampleEntity> examples) {
+        this.examples = examples;
+    }
+
+    public LocalDateTime getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    public LocalDateTime getUpdatedTimeStamp() {
+        return updatedTimeStamp;
+    }
+
+    public void setUpdatedTimeStamp(LocalDateTime updatedTimeStamp) {
+        this.updatedTimeStamp = updatedTimeStamp;
+    }
 }

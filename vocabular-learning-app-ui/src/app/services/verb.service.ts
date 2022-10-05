@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../app-constants';
+import { IndividualResponse } from '../models/individual-response';
 import { ListResponse } from '../models/list-response';
 import { Verb } from '../models/verb';
 
@@ -16,8 +17,15 @@ export class VerbService {
     this.verbsManagementURL = appConstants.BASE_URL + "VerbsLearning/"
   }
 
-  getVerbsList(): Observable<ListResponse> {
-    return this.http.get<ListResponse>(this.verbsManagementURL);
+  getVerbsList(searchType:string, searchInput:string,sortOrder:string, selectedLetter:string, pageSize:string): Observable<ListResponse> {
+    const params = new HttpParams()
+    .set('searchType', searchType)
+    .set('searchInput', searchInput)
+    .set('sortOrder', sortOrder)
+    .set('selectedLetter', selectedLetter)
+    .set('pageSize', pageSize);
+    
+    return this.http.get<ListResponse>(this.verbsManagementURL, {params});
   }
 
   getVerbsByPagination(pageNumber:number,pageSize:number, sortOrder:string, sortingBy:string): Observable<Verb[]> {
@@ -30,4 +38,9 @@ export class VerbService {
 
     return this.http.get<Verb[]>(this.verbsManagementURL + "getEmployeesByPagination",{params});
   }
+
+  updateVerb(updatedVerb: Verb): Observable<IndividualResponse> {
+    return this.http.put<IndividualResponse>(this.verbsManagementURL, updatedVerb);
+  }
+
 }

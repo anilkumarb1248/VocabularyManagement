@@ -6,6 +6,9 @@
 @import 'ag-grid-community/styles/ag-theme-balham.css';
 @import 'ag-grid-community/styles/ag-theme-material.css';
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
 html, body {
    height: 100%;
    width: 100%;
@@ -36,3 +39,11 @@ html, body {
 .btn-margin-left {
     margin-left: 5px;
 }
+
+.search-input-style{
+  height: 25px;
+  width: 200px !important;
+  color:white;
+  background-color: lightgray;
+}
+

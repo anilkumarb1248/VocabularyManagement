@@ -17,28 +17,40 @@ export class VerbsListComponent implements OnInit {
   verbs: Verb[] = new Array();
   isLoaded: boolean = false;
 
+  searchType: string = "anywhere";
+  searchInput: string = "";
+  sortOrder: string = "ASC";
+  recordsSize: string = "10";
+  selectedLetter: string = "A";
+  allLetters: string[] = [
+    "All", "A", "B", "C", "D", "E", "F", "G", "H", "i",
+    "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+    "S", "T", "U", "V", "W", "X", "Y", "Z"
+  ]
+  totalRecords:number = 0;
+
   @ViewChild('verbAgGrid') agGrid: AgGridAngular | undefined;
 
-  columnDefs = [
-    { headerName: 'Base Form', field: 'baseForm', type: 'string', sortable: true, filter: true, width: 200},
-    { headerName: 'Past Tense Form', field: 'pastTenseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-    { headerName: 'Past Participle Form', field: 'pastParticipleForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-    { headerName: 'Third Person Base Form', field: 'thirdPersonBaseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-    { headerName: 'Progressive Form', field: 'progressiveForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
-    { headerName: 'Phonetics', field: 'phonetics', type: 'nonEditableColumn', sortable: false, filter: true, width: 175 },
-    { headerName: 'Action', field: 'actions', type: 'nonEditableColumn', sortable: false, filter: true, width: 140 }
-  ];
+  // columnDefs = [
+  //   { headerName: 'Base Form', field: 'baseForm', type: 'string', sortable: true, filter: true, width: 200},
+  //   { headerName: 'Past Tense Form', field: 'pastTenseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
+  //   { headerName: 'Past Participle Form', field: 'pastParticipleForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
+  //   { headerName: 'Third Person Base Form', field: 'thirdPersonBaseForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
+  //   { headerName: 'Progressive Form', field: 'progressiveForm', type: 'nonEditableColumn', sortable: false, filter: true, width: 200 },
+  //   { headerName: 'Phonetics', field: 'phonetics', type: 'nonEditableColumn', sortable: false, filter: true, width: 175 },
+  //   { headerName: 'Action', field: 'actions', type: 'nonEditableColumn', sortable: false, filter: true, width: 140 }
+  // ];
 
   constructor(
     private verbService: VerbService,
     private router: Router,
-    private speaker:Speaker
+    private speaker: Speaker
   ) { }
 
   ngOnInit(): void {
-    this.loadEmployeesWithoutPagination();
+    this.loadVerbsList();
     //You can select the voice using the indexex of getVoices()[1]
-		// let voice = (speechSynthesis.getVoices()[3] || null);
+    // let voice = (speechSynthesis.getVoices()[3] || null);
     // this.speaker.setVoice(voice);
   }
 
@@ -51,12 +63,13 @@ export class VerbsListComponent implements OnInit {
   }
 
 
-  loadEmployeesWithoutPagination() {
-    this.verbService.getVerbsList().subscribe(
+  loadVerbsList() {
+    this.verbService.getVerbsList(this.searchType, this.searchInput, this.sortOrder, this.selectedLetter, this.recordsSize).subscribe(
       (data) => {
         console.log(data);
         this.listResponse = data;
         this.verbs = this.listResponse.values;
+        this.totalRecords = this.verbs.length;
         this.isLoaded = true;
       },
       (error) => {
@@ -72,14 +85,18 @@ export class VerbsListComponent implements OnInit {
     // $("#imagemodal").modal("show");
   }
 
-  public textToSpeak(text:string):void {
+  public textToSpeak(text: string): void {
     this.speaker.speak(text);
   }
 
-  
+
 
   addInitialData() {
     throw new Error('Method not implemented.');
-    }
+  }
+
+  modifySearh() {
+    this.loadVerbsList();
+  }
 
 }

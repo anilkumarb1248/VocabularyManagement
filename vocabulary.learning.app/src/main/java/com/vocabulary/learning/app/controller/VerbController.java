@@ -14,8 +14,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,9 +38,16 @@ public class VerbController {
     }
 
     @GetMapping
-    public Callable<ResponseEntity<ListResponse<Verb>>> getAllVerbs() {
-        List<Verb> verbList = verbService.getAllVerbs();
+    public Callable<ResponseEntity<ListResponse<Verb>>> getVerbsList(
+            @RequestParam("searchType") String searchType,
+            @RequestParam("searchInput") String searchInput,
+            @RequestParam("sortOrder") String sortOrder,
+            @RequestParam("selectedLetter") String selectedLetter,
+            @RequestParam("pageSize") Integer pageSize) {
+
         ListResponse<Verb> listResponse = new ListResponse<>();
+        List<Verb> verbList = verbService.getAllVerbs(searchType, searchInput,
+                sortOrder, selectedLetter, pageSize);
 
         if (!CollectionUtils.isEmpty(verbList)) {
             listResponse.setValues(verbList);
@@ -74,6 +83,22 @@ public class VerbController {
         IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
         try {
             verbService.insertVerb(verb);
+            individualResponse.setStatus(Status.SUCCESS);
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error("Exception occurred while inserting the verbs: ", e);
+            individualResponse.setStatus(Status.ERROR);
+            individualResponse.setMsg(e.getMessage());
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> updateVerb(@RequestBody Verb verb) {
+
+        IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
+        try {
+            verbService.updateVerb(verb);
             individualResponse.setStatus(Status.SUCCESS);
             return () -> new ResponseEntity<>(individualResponse, HttpStatus.CREATED);
         } catch (Exception e) {
