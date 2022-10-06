@@ -1,55 +1,54 @@
 <div>
   <div *ngIf="!verbs && isLoaded" style="position: fixed;margin-top: 10%;margin-left: 40%;">
-      Loading...
+    Loading...
   </div>
   <div *ngIf="verbs" style="margin-top: 10px;">
-      <table class="table table-sm table-bordered table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Verb Id</th>
-            <th>Base Form</th>
-            <th>Past Tense Form</th>
-            <th>Past Participle Form</th>
-            <th>Third Person Base Form</th>
-            <th>Progressive Form</th>
-            <th>Phonetics</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
+    <table class="table table-sm table-bordered table-hover">
+      <thead class="table-dark">
         <tr class="table-light">
-          <th colspan="7">
+          <th colspan="9">
             <div class="row" style="margin-top: 5px;">
+              <div class="col" style="color:blue;">
+                Total: {{totalRecords}}
+              </div>
               <div class="col">
-                <select [(ngModel)]="searchType" class="custom-select" id="orderSelectionId" style="width: 120px;">
-                  <option selected value="starting">Starts with:</option>
-                  <option value="ending">Ends with:</option>
-                  <option value="anywhere">Anywhere:</option>
+                <select [(ngModel)]="searchType" class="custom-select" id="orderSelectionId" style="width: 100px;">
+                  <option selected value="starting">Starts with</option>
+                  <option value="ending">Ends with</option>
+                  <option value="anywhere">Anywhere</option>
                 </select>
               </div>
               <div class="col">
-                <input type="text" [(ngModel)]="searchInput" class="form-control search-input-style" id="baseFormSearch" placeholder="Search">
+                <input type="text" [(ngModel)]="searchInput" class="form-control search-input-style" id="baseFormSearch"
+                  placeholder="Search">
               </div>
               <div class="col">
                 Or
               </div>
-              <div class="col">
-                <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId" style="width: 80px;">
-                    <option *ngFor="let letter of allLetters; index as j">{{letter}}</option>
+              <div class="col" style="margin-left: -50px;">
+                <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId"
+                  style="width: 80px;">
+                  <option *ngFor="let letter of allLetters; index as j">{{letter}}</option>
                 </select>
               </div>
               <div class="col">
                 And
               </div>
-
               <div class="col">
-                <select [(ngModel)]="sortOrder" class="custom-select" id="orderSelectionId" style="width: 170px;">
+                Order:
+              </div>
+              <div class="col" style="margin-left: -45px;">
+                <select [(ngModel)]="sortOrder" class="custom-select" id="orderSelectionId" style="width: 110px;">
                   <option selected value="ASC">Ascending</option>
                   <option value="DESC">Descending</option>
                 </select>
               </div>
-
               <div class="col">
-                <select [(ngModel)]="recordsSize" class="custom-select" id="recordsSizeSelectionId" style="width: 140px;">
+                Size:
+              </div>
+              <div class="col" style="margin-left: -55px;">
+                <select [(ngModel)]="recordsSize" class="custom-select" id="recordsSizeSelectionId"
+                  style="width: 60px;">
                   <option selected value="10">10</option>
                   <option value="50">50</option>
                   <option value="100">100</option>
@@ -64,47 +63,64 @@
               <div class="col" style="text-align: center;">
                 <button class="btn btn-vsm btn-warning" (click)="modifySearh()">Search</button>
               </div>
-              <div class="col">
-                Total: {{totalRecords}}
+
+              <div class="col" style="text-align: center;">
+                <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()">Speak All</button>
+                <button *ngIf="!showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="stopSpeaking()">Stop</button>
               </div>
 
+              <div class="col" style="text-align: center;">
+                <button class="btn btn-vsm btn-primary" (click)="exportVerbs()">Export</button>
+              </div>
             </div>
           </th>
-          <th>
-            <div class="col" style="text-align: center;">
-              <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()">Speak All</button>
-              <button *ngIf="!showSpeakAllBtn"  class="btn btn-vsm btn-danger" (click)="stopSpeaking()">Stop</button>
-            </div>
-          </th>
-      </tr>
-        </thead>
+        </tr>
+
+        <tr>
+          <th>Verb Id</th>
+          <th>Base Form</th>
+          <th>Past Tense Form</th>
+          <th>Past Participle Form</th>
+          <th>Third Person Base Form</th>
+          <th>Progressive Form</th>
+          <th>Phonetics</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
 
-        <tbody *ngFor="let verb of verbs;index as i">
-          <tr [class]="geClass(i)">
-            <td>{{verb.verbId}}</td>
-            <td>{{verb.baseForm}} 
-              <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.baseForm)"></span>
-            </td>
-            <td>{{verb.pastTenseForm}} 
-              <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.pastTenseForm)"></span>
-            </td>
-            <td>{{verb.pastParticipleForm}} 
-              <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.pastParticipleForm)"></span>
-            </td>
-            <td>{{verb.thirdPersonBaseForm}}
-              <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.thirdPersonBaseForm)"></span>
-            </td>
-            <td>{{verb.progressiveForm}}
-              <span class="badge"><img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(verb.progressiveForm)"></span>
-            </td>
-            <td>{{verb.phonetics}}</td>
-            <td>{{verb.learningStatus}}</td>
-            <td style="width: 80px;text-align: center;">
-                <button class="btn btn-info btn-vsm" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm">View</button>
-               <!-- <input  type="button" class="btn btn-info btn-vsm" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm" value="View"/> -->
-            </td>
-            
+      <tbody *ngFor="let verb of verbs;index as i">
+        <tr [class]="geClass(i)">
+          <td>{{verb.verbId}}</td>
+          <td>{{verb.baseForm}}
+            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                (click)="textToSpeak(verb.baseForm)"></span>
+          </td>
+          <td>{{verb.pastTenseForm}}
+            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                (click)="textToSpeak(verb.pastTenseForm)"></span>
+          </td>
+          <td>{{verb.pastParticipleForm}}
+            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                (click)="textToSpeak(verb.pastParticipleForm)"></span>
+          </td>
+          <td>{{verb.thirdPersonBaseForm}}
+            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                (click)="textToSpeak(verb.thirdPersonBaseForm)"></span>
+          </td>
+          <td>{{verb.progressiveForm}}
+            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+                (click)="textToSpeak(verb.progressiveForm)"></span>
+          </td>
+          <td>{{verb.phonetics}}</td>
+          <td>{{verb.learningStatus}}</td>
+          <td style="width: 80px;text-align: center;">
+            <button class="btn btn-info btn-vsm" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm"
+              aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm">View</button>
+            <!-- <input  type="button" class="btn btn-info btn-vsm" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm" aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm" value="View"/> -->
+          </td>
+
 
         </tr>
         <tr class="collapse" id="{{verb.baseForm}}">
@@ -113,8 +129,8 @@
               <app-view [verbData]="verb"></app-view>
             </div>
           </td>
-          
+
         </tr>
-        </tbody>
-      </table>
+      </tbody>
+    </table>
   </div>

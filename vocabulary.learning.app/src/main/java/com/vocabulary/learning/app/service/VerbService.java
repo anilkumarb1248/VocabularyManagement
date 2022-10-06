@@ -46,7 +46,7 @@ public class VerbService {
         Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortingBy);
         Pageable pageable;
         if ("All".equalsIgnoreCase(selectedLetter)) {
-            pageable = PageRequest.of(0, 0, sort);
+            pageable = PageRequest.of(0, 5000, sort);
         } else {
             pageable = PageRequest.of(0, pageSize, sort);
         }

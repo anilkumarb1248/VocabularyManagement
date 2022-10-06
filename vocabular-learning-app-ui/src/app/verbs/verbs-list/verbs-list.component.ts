@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ListResponse } from 'src/app/models/list-response';
 import { Verb } from 'src/app/models/verb';
+import { ExcelAPIService } from 'src/app/services/excel-api.service';
 import { VerbService } from 'src/app/services/verb.service';
 import { Speaker } from 'src/app/Voice/speaker';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-verbs-list',
@@ -32,7 +34,8 @@ export class VerbsListComponent implements OnInit {
 
   constructor(
     private verbService: VerbService,
-    private speaker: Speaker
+    private speaker: Speaker,
+    private excelAPIService :ExcelAPIService
   ) { }
 
   ngOnInit(): void {
@@ -95,5 +98,9 @@ export class VerbsListComponent implements OnInit {
 
 
     return data;
+  }
+
+  exportVerbs(): void {
+    this.excelAPIService.exportVerbs().subscribe(blob => saveAs(blob, "verbs.xlx"));
   }
 }
