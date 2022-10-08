@@ -1,71 +1,90 @@
-<form [formGroup]="verbForm" (ngSubmit)="updateVerb()">
-    <div class="row" style="margin-top: 5px;">
-        <div class="col">
-            <input formControlName="baseForm" type="text" class="form-control input-style" placeholder="Base Form">
-        </div>
-        <div class="col">
-            <input formControlName="pastTenseForm" type="text" class="form-control input-style"
-                placeholder="Past Tense Form">
-        </div>
-        <div class="col">
-            <input formControlName="pastParticipleForm" type="text" class="form-control input-style"
-                placeholder="Past Participle Form">
-        </div>
-        <div class="col">
-            <input formControlName="thirdPersonBaseForm" type="text" class="form-control input-style"
-                placeholder="Third Person Base Form">
-        </div>
-        <div class="col">
-            <input formControlName="progressiveForm" type="text" class="form-control input-style"
-                placeholder="Progressive Form">
-        </div>
-        <div class="col">
-            <input formControlName="phonetics" type="text" class="form-control input-style" placeholder="Phonetics">
-        </div>
-        <div class="col">
-            <select formControlName="learningStatus" [attr.value]="verbForm.learningStatus" class="custom-select" id="learningStatusId">
-                <option value="NOT_STARTED">Not Started</option>
-                <option value="IN_PROGRESS">Inprogress</option>
-                <option value="COMPLETED">Completed</option>
-              </select>
-        </div>
-        <div class="col" style="text-align: right;">
-            <button type="submit" class="btn btn-primary btn-sm">Save</button>
-        </div>
-    </div>
+<div>
+    <div *ngIf="!isLoaded">
+        Loading....
+      </div>
+    <div *ngIf="isLoaded" style="margin-top:10px;">
+        <form [formGroup]="verbForm" (ngSubmit)="updateVerb()">
+            <div class="row">
+                <div class="col" style="text-align: left;margin-top: -10px;">
+                        <select formControlName="learningStatus" [attr.value]="verbForm.learningStatus"
+                            class="custom-select" id="learningStatusId" style="background-color: lightblue;">
+                            <option value="NOT_STARTED">Not Started</option>
+                            <option value="IN_PROGRESS">Inprogress</option>
+                            <option value="COMPLETED">Completed</option>
+                        </select>
 
-    <div class="row" style="margin-top: 5px;">
-        <div class="col">
-
-            <label for="meaningsTextAreaId">Meanings: <span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('meanings')"></span></label>
-            <textarea class="form-control" id="meaningsTextAreaId" name="text" formControlName="meanings" style="width: 550px;height:150px;"></textarea>
-        </div>
-        <div class="col">
-            <label for="examplesTextAreaId">Examples:<span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                        (click)="textToSpeak('examples')"></span></label>
-            <textarea class="form-control" id="examplesTextAreaId" name="text" formControlName="examples" style="width: 550px;height:150px;"></textarea>
-        </div>
-
-        <div class="col">
-            <label for="imageId">Image: 
-                <span class="badge">
-                    <input type="button" (click)="onUpload(verbData?.verbId)" value="upload">
-                    <input type="button" (click)="loadImage(verbData?.verbId, '')" value="Load">
-                    <input type="button" (click)="deleteImage(verbData?.verbId)" value="Delete">
-            </span>
-            </label>
-            <div>
-                <div *ngIf="!retrievedImage">
-                    <input type="file" id="imageId" (change)="onFileChanged($event)">
+                        <input type="button" class="btn btn-dark btn-vsm" (click)="speakVerbData()" value="Speak" style="margin-left: 10px;
+                        margin-top: -5px;">
+                        <input type="button" class="btn btn-warning btn-vsm" (click)="stopSpeaking()" value="Stop" style="margin-left: 10px;
+                        margin-top: -5px;">
                 </div>
-                <div *ngIf="retrievedImage">
-                    <img [src]="retrievedImage">
+                <div class="col" style="text-align: right;margin-top: -10px;">
+                    <button type="submit" class="btn btn-success btn-sm">Save</button>
+                    <button type="button" class="btn btn-warning btn-sm" (click)="closePopup()" style="margin-left:15px;">Close</button>
                 </div>
             </div>
-           
 
-        </div>
-        
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                    <input formControlName="baseForm" type="text" class="form-control input-style"
+                        placeholder="Base Form">
+                </div>
+                <div class="col">
+                    <input formControlName="pastTenseForm" type="text" class="form-control input-style"
+                        placeholder="Past Tense Form">
+                </div>
+                <div class="col">
+                    <input formControlName="pastParticipleForm" type="text" class="form-control input-style"
+                        placeholder="Past Participle Form">
+                </div>
+                <div class="col">
+                    <input formControlName="thirdPersonBaseForm" type="text" class="form-control input-style"
+                        placeholder="Third Person Base Form">
+                </div>
+                <div class="col">
+                    <input formControlName="progressiveForm" type="text" class="form-control input-style"
+                        placeholder="Progressive Form">
+                </div>
+                <div class="col">
+                    <input formControlName="phonetics" type="text" class="form-control input-style"
+                        placeholder="Phonetics">
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px; margin-left: 10px;">
+                <div class="col-md-8">
+                    <div class="row">
+                        <label for="meaningsTextAreaId">Meanings: <span class="badge"><img
+                                    src="../assets/images/speak.png" class="image-style"
+                                    (click)="textToSpeak('meanings')"></span></label>
+                        <textarea class="form-control" id="meaningsTextAreaId" name="text" formControlName="meanings"
+                            style="width: 600px;height:200px;"></textarea>
+
+                    </div>
+                    <div class="row">
+                        <label for="examplesTextAreaId">Examples:<span class="badge"><img
+                                    src="../assets/images/speak.png" class="image-style"
+                                    (click)="textToSpeak('examples')"></span></label>
+                        <textarea class="form-control" id="examplesTextAreaId" name="text" formControlName="examples"
+                            style="width: 600px;height:200px;"></textarea>
+
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-top: 15px;">
+                    <label for="imageId">
+                        <span class="badge" style="color:black;">
+                            <input type="file" id="imageId" (change)="onFileChanged($event)">
+                            <input type="button" class="btn btn-primary btn-vsm" (click)="onUpload(verbData?.verbId)" value="upload">
+                            <input type="button"class="btn btn-danger btn-vsm" (click)="deleteImage(verbData?.verbId)" value="Delete" style="margin-left: 5px;">
+                        </span>
+                    </label>
+                    <div>
+                        <img [src]="retrievedImage" alt="No Image" height="250px" width="250px">
+                    </div>
+                </div>
+
+            </div>
+        </form>
     </div>
-</form>
+</div>

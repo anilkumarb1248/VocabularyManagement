@@ -5,6 +5,7 @@ import { VerbService } from 'src/app/services/verb.service';
 import { ImageService } from 'src/app/services/image.service';
 import { Speaker } from 'src/app/Voice/speaker';
 import { Image } from 'src/app/models/image';
+import { IndividualResponse } from 'src/app/models/individual-response';
 
 @Component({
   selector: 'app-view',
@@ -14,23 +15,47 @@ import { Image } from 'src/app/models/image';
 export class ViewComponent implements OnInit {
 
   @Input()
+  verbId: number = 0;
+
   verbData: Verb | undefined;
+
+  individualResponse : IndividualResponse | undefined;
+
+  @Input()
+  verbWindowModal:any | undefined;
 
   verbForm: any;
   selectedFile: File | undefined;
   retrievedImage: any;
   imageResponse:any;
+  isLoaded: boolean = false;
 
   constructor(
     private verbService: VerbService,
     private speaker: Speaker,
     private imageService : ImageService) {
-
+  
   }
 
   ngOnInit(): void {
-    console.log(this.verbData);
+    this.loadVerbDetails();
+  }
 
+  loadVerbDetails(){
+    this.verbService.getVerbDetails(this.verbId).subscribe(
+      (data) => {
+        this.individualResponse = data;
+        this.verbData = this.individualResponse.value;
+        this.createVerbForm();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.loadImage(this.verbId, "");
+  }
+
+  createVerbForm(){
     this.verbForm = new FormGroup({
       verbId: new FormControl(this.verbData?.verbId),
       baseForm: new FormControl(this.verbData?.baseForm),
@@ -45,9 +70,7 @@ export class ViewComponent implements OnInit {
       createdTimeStamp: new FormControl(this.verbData?.createdTimeStamp),
       updatedTimeStamp: new FormControl(this.verbData?.updatedTimeStamp)
     });
-
-    this.loadImage(this.verbData?.verbId, "");
-
+    this.isLoaded = true;
   }
 
   updateVerb(): void {
@@ -71,28 +94,52 @@ export class ViewComponent implements OnInit {
     this.verbService.updateVerb(updatedVerb).subscribe(
       (data) => {
         console.log(data.getStatus);
+        this.closePopup();
       },
       (error) => {
         console.log(error);
+        // this.verbWindowModal.dismiss('Cross click');
       }
     );
 
   }
 
-  public textToSpeak(type: string): void {
-    let text;
-    if (type == 'meanings') {
-      text = this.verbForm.value.meanings;
-    } else if (type == 'examples') {
-      text = this.verbForm.value.examples;
-    }
+  closePopup(){
+    this.verbWindowModal.dismiss();
+  }
 
+  stopSpeaking():void{
+    this.speaker.stopSpeaking();
+  }
+
+  public speakVerbData():void{
+    let verb = this.verbForm.value;
+    let text = verb.baseForm + ". " + verb.pastTenseForm + ". " + verb.pastParticipleForm + ". " + verb.thirdPersonBaseForm + ". " + verb.progressiveForm + ". ";
+    text = text + ".\n " + this.prepareMeaningsOrExamplesText("meanings");
+    text = text + ".\n" + this.prepareMeaningsOrExamplesText("examples");
+
+    this.speaker.speak(text);
+  }
+
+  prepareMeaningsOrExamplesText(type:string):string{
+    let text = "";
+    if (type == 'meanings') {
+      text = "Meanings.\n";
+      text = text + this.verbForm.value.meanings;
+    } else if (type == 'examples') {
+      text = "Examples.\n"
+      text = text + this.verbForm.value.examples;
+    }
+    return text;
+  }
+
+  public textToSpeak(type: string): void {
+    let text = this.prepareMeaningsOrExamplesText(type);
     if (text) {
       this.speaker.speak(text);
     } else {
       this.speaker.speak("Please give me some text! so that I can speak");
     }
-
   }
 
   splitText(text: string): any[] {
@@ -113,14 +160,12 @@ export class ViewComponent implements OnInit {
     return combinedText;
   }
 
-  
-
   onFileChanged(event:any){
     this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile);
   }
 
   onUpload(verbId:any){
-    console.log("flasfldskjf: " + verbId)
     if(this.selectedFile && verbId){
       const uploadImageData = new FormData();
       uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
@@ -128,6 +173,7 @@ export class ViewComponent implements OnInit {
       this.imageService.uploadImage(uploadImageData, verbId).subscribe(
         (data) => {
           console.log(data.getStatus);
+          this.loadImage(verbId, "");
         },
         (error) => {
           console.log(error);
@@ -139,13 +185,11 @@ export class ViewComponent implements OnInit {
   }
 
   loadImage(verbId:any, imageName:string){
-    console.log("****");
     this.imageService.getImage(verbId, imageName).subscribe(
       data => {
         if(data){
           this.imageResponse = data;
           let base64Data = this.imageResponse.image;
-          // this.retrievedImage = 'data:image/jpeg;base64,' + base64Data;
           this.retrievedImage = 'data:'+this.imageResponse.type+';base64,' + base64Data;
         }
       }
@@ -156,6 +200,7 @@ export class ViewComponent implements OnInit {
     this.imageService.deleteImage(verbId).subscribe(
       data => {
         if(data){
+          this.imageResponse = null;
           console.log(data.status);
         }
       }

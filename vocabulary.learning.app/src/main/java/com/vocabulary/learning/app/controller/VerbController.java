@@ -1,6 +1,7 @@
 package com.vocabulary.learning.app.controller;
 
 import com.vocabulary.learning.app.model.Verb;
+import com.vocabulary.learning.app.model.VerbSearchRequest;
 import com.vocabulary.learning.app.response.IndividualResponse;
 import com.vocabulary.learning.app.response.ListResponse;
 import com.vocabulary.learning.app.response.Status;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,17 +39,11 @@ public class VerbController {
         this.verbService = verbService;
     }
 
-    @GetMapping
-    public Callable<ResponseEntity<ListResponse<Verb>>> getVerbsList(
-            @RequestParam("searchType") String searchType,
-            @RequestParam("searchInput") String searchInput,
-            @RequestParam("sortOrder") String sortOrder,
-            @RequestParam("selectedLetter") String selectedLetter,
-            @RequestParam("pageSize") Integer pageSize) {
+    @PostMapping
+    public Callable<ResponseEntity<ListResponse<Verb>>> getVerbsList(@RequestBody VerbSearchRequest verbSearchRequest) {
 
         ListResponse<Verb> listResponse = new ListResponse<>();
-        List<Verb> verbList = verbService.getAllVerbs(searchType, searchInput,
-                sortOrder, selectedLetter, pageSize);
+        List<Verb> verbList = verbService.getAllVerbs(verbSearchRequest);
 
         if (!CollectionUtils.isEmpty(verbList)) {
             listResponse.setValues(verbList);
@@ -58,6 +54,24 @@ public class VerbController {
             listResponse.setStatus(Status.NOT_FOUND);
             listResponse.setMsg("No records found");
             return () -> new ResponseEntity<>(listResponse, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{verbId}")
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> getVerbDetails(@PathVariable Integer verbId) {
+
+        IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
+        Verb verb = verbService.getVerbDetails(verbId);
+
+        if (verb != null) {
+            individualResponse.setValue(verb);
+            individualResponse.setStatus(Status.SUCCESS);
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.OK);
+        } else {
+            LOGGER.warn("No Verb records found");
+            individualResponse.setStatus(Status.NOT_FOUND);
+            individualResponse.setMsg("No record found");
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.NOT_FOUND);
         }
     }
 

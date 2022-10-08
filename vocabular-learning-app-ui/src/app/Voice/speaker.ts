@@ -4,6 +4,8 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
   })
 export class Speaker {
+	//https://www.bennadel.com/blog/3955-having-fun-with-the-speechsynthesis-api-in-angular-11-0-5.htm
+
 
     public sayCommand: string | undefined;
 	public rate: number  = 1; // [.25, .5, .75, 1, 1.25, 1.5, 1.75, 2];
@@ -12,12 +14,12 @@ export class Speaker {
     constructor(){
         let voices = speechSynthesis.getVoices();
 		this.voice = (voices[1] || null); // Here indexex will be the voice of speakers
-		this.updateSayCommand("Dummy Text");
+		// this.updateSayCommand("Dummy Text");
     }
 
     public setVoice(voice:SpeechSynthesisVoice){
 		this.voice = voice;
-		this.updateSayCommand("Dummy Text");
+		// this.updateSayCommand("Dummy Text");
     }
 
     public speak(text: string):void{
@@ -38,8 +40,13 @@ export class Speaker {
 	}
 
     public updateSayCommand(text:string): void {
-		if (!this.voice || !text) {
+		console.log("it is calling");
+		if (!text) {
 			return;
+		}
+		if(!this.voice){
+			let voices = speechSynthesis.getVoices();
+			this.voice = (voices[1] || null);
 		}
 		// With the say command, the rate is the number of words-per-minute. As such, we
 		// have to finagle the SpeechSynthesis rate into something roughly equivalent for

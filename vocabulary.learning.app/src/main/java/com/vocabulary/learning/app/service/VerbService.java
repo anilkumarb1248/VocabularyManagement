@@ -3,10 +3,13 @@ package com.vocabulary.learning.app.service;
 import com.vocabulary.learning.app.entity.ExampleEntity;
 import com.vocabulary.learning.app.entity.MeaningEntity;
 import com.vocabulary.learning.app.entity.VerbEntity;
+import com.vocabulary.learning.app.enums.LearningStatus;
 import com.vocabulary.learning.app.model.Verb;
+import com.vocabulary.learning.app.model.VerbSearchRequest;
 import com.vocabulary.learning.app.repository.ExampleRepository;
 import com.vocabulary.learning.app.repository.MeaningRepository;
 import com.vocabulary.learning.app.repository.VerbRepository;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,42 +41,90 @@ public class VerbService {
         this.meaningRepository = meaningRepository;
     }
 
-    public List<Verb> getAllVerbs(String searchType, String searchInput, String sortOrder, String selectedLetter, Integer pageSize) {
+    public List<Verb> getAllVerbs(VerbSearchRequest verbSearchRequest) {
+        List<VerbEntity> verbEntities = null;
+        if ("All".equalsIgnoreCase(verbSearchRequest.getSelectedLetter())) {
+            verbEntities = findAllVerbs();
+        } else if (StringUtils.isNotBlank(verbSearchRequest.getLearningStatus())) {
+            verbEntities = findByLearningStatus(verbSearchRequest.getLearningStatus());
+        } else {
+            verbEntities = findAllWithPagination(verbSearchRequest);
+        }
+
         List<Verb> verbList = new ArrayList<>();
-
-        String sortingBy = "baseForm";
-        Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortingBy);
-        Pageable pageable;
-        if ("All".equalsIgnoreCase(selectedLetter)) {
-            pageable = PageRequest.of(0, 5000, sort);
-        } else {
-            pageable = PageRequest.of(0, pageSize, sort);
-        }
-
-        Page<VerbEntity> page = null;
-        if (StringUtils.isBlank(searchInput)) {
-            page = verbRepository.findByBaseFormLike(selectedLetter + "%", pageable);
-        } else {
-            if ("starting".equalsIgnoreCase(searchType)) {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
-                        searchInput + "%", searchInput + "%", searchInput + "%", pageable);
-            } else if ("ending".equalsIgnoreCase(searchType)) {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
-                        "%" + searchInput, "%" + searchInput, "%" + searchInput, pageable);
-            } else {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
-                        "%" + searchInput + "%", "%" + searchInput + "%", "%" + searchInput + "%", pageable);
-            }
-
-        }
-        if (page != null) {
-            List<VerbEntity> verbEntities = page.getContent();
+        if (CollectionUtils.isNotEmpty(verbEntities)) {
             verbEntities.stream().forEach(entity -> {
-                Verb verb = mapToDTO(entity);
+                Verb verb = mapToDTO(entity, verbSearchRequest);
                 verbList.add(verb);
             });
         }
         return verbList;
+    }
+
+    private List<VerbEntity> findAllVerbs() {
+        Sort sort = Sort.by(Sort.Direction.fromString("ASC"), "baseForm");
+        return verbRepository.findAll(sort);
+    }
+
+    private List<VerbEntity> findAllWithPagination(VerbSearchRequest request) {
+        String sortingBy = "baseForm";
+        Sort sort = Sort.by(Sort.Direction.fromString(request.getSortOrder()), sortingBy);
+        Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getPageSize(), sort);
+
+        Page<VerbEntity> page = null;
+        if (StringUtils.isBlank(request.getSearchInput())) {
+            page = verbRepository.findByBaseFormLike(request.getSelectedLetter() + "%", pageable);
+        } else {
+            if ("starting".equalsIgnoreCase(request.getSearchType())) {
+                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                        request.getSearchInput() + "%", request.getSearchInput() + "%", request.getSearchInput() + "%", pageable);
+            } else if ("ending".equalsIgnoreCase(request.getSearchType())) {
+                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                        "%" + request.getSearchInput(), "%" + request.getSearchInput(), "%" + request.getSearchInput(), pageable);
+            } else {
+                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                        "%" + request.getSearchInput() + "%", "%" + request.getSearchInput() + "%", "%" + request.getSearchInput() + "%", pageable);
+            }
+        }
+        if (page != null) {
+            return page.getContent();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    private List<VerbEntity> findByLearningStatus(String status) {
+        if ("Completed".equalsIgnoreCase(status)) {
+            return verbRepository.findAllByLearningStatus(LearningStatus.COMPLETED);
+        } else if ("InProgress".equalsIgnoreCase(status)) {
+            return verbRepository.findAllByLearningStatus(LearningStatus.IN_PROGRESS);
+        } else {
+            return verbRepository.findAllByLearningStatus(LearningStatus.NOT_STARTED);
+        }
+    }
+
+    public List<Verb> findAllByVerbIds(List<Integer> verbIds, String order){
+        List<Verb> verbList = new ArrayList<>();
+
+        Sort sort = Sort.by(Sort.Direction.fromString(order), "baseForm");
+        List<VerbEntity> verbEntities = verbRepository.findAllByVerbIdIn(verbIds, sort);
+
+        if (CollectionUtils.isNotEmpty(verbEntities)) {
+            verbEntities.stream().forEach(entity -> {
+                Verb verb = mapToDTO(entity, null);
+                verbList.add(verb);
+            });
+        }
+        return verbList;
+    }
+
+    public Verb getVerbDetails(Integer verbId){
+        Verb verb = null;
+        Optional<VerbEntity> optional = verbRepository.findById(verbId);
+        if(optional.isPresent()){
+            verb = mapToDTO(optional.get(), null);
+        }
+        return verb;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -130,16 +180,6 @@ public class VerbService {
             verbEntity.setMeanings(meaningEntities);
         }
 
-//        List<ImageEntity> imageEntities = new ArrayList<>();
-//        verb.getImages().stream().forEach(image -> {
-//            ImageEntity imageEntity = new ImageEntity();
-//            imageEntity.setImage(image);
-//            imageEntities.add(imageEntity);
-//        });
-//        if (!CollectionUtils.isEmpty(imageEntities)) {
-//            verbEntity.setImages(imageEntities);
-//        }
-
         List<ExampleEntity> exampleEntities = new ArrayList<>();
         verb.getExamples().stream().forEach(example -> {
             ExampleEntity exampleEntity = new ExampleEntity();
@@ -155,7 +195,7 @@ public class VerbService {
         return verbEntity;
     }
 
-    private Verb mapToDTO(VerbEntity entity) {
+    private Verb mapToDTO(VerbEntity entity, VerbSearchRequest request) {
         Verb verb = new Verb();
         verb.setVerbId(entity.getVerbId());
         verb.setBaseForm(entity.getBaseForm());
@@ -164,20 +204,20 @@ public class VerbService {
         verb.setThirdPersonBaseForm(entity.getThirdPersonBaseForm());
         verb.setProgressiveForm(entity.getProgressiveForm());
         verb.setPhonetics(entity.getPhonetics());
-
-        entity.getMeanings().stream().forEach(meaning -> {
-            verb.getMeanings().add(meaning.getMeaning());
-        });
-//        entity.getImages().stream().forEach(image -> {
-//            verb.getImages().add(image.getImage());
-//        });
-
-        entity.getExamples().stream().forEach(example -> {
-            verb.getExamples().add(example.getExample());
-        });
-        verb.setCreatedTimeStamp(entity.getCreatedTimeStamp());
-        verb.setUpdatedTimeStamp(entity.getUpdatedTimeStamp());
         verb.setLearningStatus(entity.getLearningStatus());
+
+        if(request == null || !request.isExcludedChildren()){
+            entity.getMeanings().stream().forEach(meaning -> {
+                verb.getMeanings().add(meaning.getMeaning());
+            });
+
+            entity.getExamples().stream().forEach(example -> {
+                verb.getExamples().add(example.getExample());
+            });
+        }
+//        verb.setCreatedTimeStamp(entity.getCreatedTimeStamp());
+//        verb.setUpdatedTimeStamp(entity.getUpdatedTimeStamp());
+
         return verb;
     }
 }

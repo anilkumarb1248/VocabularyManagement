@@ -23,6 +23,7 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
     public void saveImage(String name, byte[] image, String type, Integer verbId){
 
         deleteImage(verbId);
@@ -57,7 +58,7 @@ public class ImageService {
         return image;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
     public void deleteImage(Integer verbId) {
         Optional<ImageEntity> optionalImage = imageRepository.findByVerbId(verbId);
         if(optionalImage.isPresent()){

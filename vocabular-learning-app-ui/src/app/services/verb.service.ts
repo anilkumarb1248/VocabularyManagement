@@ -5,6 +5,7 @@ import { AppConstants } from '../app-constants';
 import { IndividualResponse } from '../models/individual-response';
 import { ListResponse } from '../models/list-response';
 import { Verb } from '../models/verb';
+import { VerbSearchRequest } from '../models/verb-search-request';
 
 @Injectable({
   providedIn: 'root'
@@ -17,26 +18,12 @@ export class VerbService {
     this.verbsManagementURL = appConstants.BASE_URL + "VerbsLearning/"
   }
 
-  getVerbsList(searchType:string, searchInput:string,sortOrder:string, selectedLetter:string, pageSize:string): Observable<ListResponse> {
-    const params = new HttpParams()
-    .set('searchType', searchType)
-    .set('searchInput', searchInput)
-    .set('sortOrder', sortOrder)
-    .set('selectedLetter', selectedLetter)
-    .set('pageSize', pageSize);
-    
-    return this.http.get<ListResponse>(this.verbsManagementURL, {params});
+  getVerbsList(verbSearchRequest: VerbSearchRequest): Observable<ListResponse> {
+    return this.http.post<ListResponse>(this.verbsManagementURL, verbSearchRequest);
   }
 
-  getVerbsByPagination(pageNumber:number,pageSize:number, sortOrder:string, sortingBy:string): Observable<Verb[]> {
-
-    const params = new HttpParams()
-    .set('pageNumber', pageNumber.toString())
-    .set('pageSize', pageSize.toString())
-    .set('sortOrder', sortOrder)
-    .set('sortingBy', sortingBy);
-
-    return this.http.get<Verb[]>(this.verbsManagementURL + "getEmployeesByPagination",{params});
+  getVerbDetails(verbId: number): Observable<IndividualResponse> {
+    return this.http.get<IndividualResponse>(this.verbsManagementURL + verbId);
   }
 
   updateVerb(updatedVerb: Verb): Observable<IndividualResponse> {
