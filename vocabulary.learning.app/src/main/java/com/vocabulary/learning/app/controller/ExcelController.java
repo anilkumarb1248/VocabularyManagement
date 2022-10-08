@@ -3,7 +3,6 @@ package com.vocabulary.learning.app.controller;
 import com.vocabulary.learning.app.AppConstants;
 import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.response.IndividualResponse;
-import com.vocabulary.learning.app.response.ListResponse;
 import com.vocabulary.learning.app.response.Status;
 import com.vocabulary.learning.app.service.ExcelService;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ import java.util.concurrent.Callable;
 
 @RestController
 @RequestMapping("/excel")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.0.143:4200"})
 public class ExcelController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelController.class);
     private final ExcelService excelService;
