@@ -30,10 +30,10 @@ public class VerbEntity implements Serializable {
     @Column(name="BASE_FORM", unique = true, nullable = false)
     private String baseForm;
 
-    @Column(name="PAST_TENSE_FORM", nullable = false)
+    @Column(name="PAST_TENSE_FORM")
     private String pastTenseForm;
 
-    @Column(name="PAST_PARTICIPLE_FORM", nullable = false)
+    @Column(name="PAST_PARTICIPLE_FORM")
     private String pastParticipleForm;
 
     @Column(name="THIRD_PERSON_BASE_FORM")

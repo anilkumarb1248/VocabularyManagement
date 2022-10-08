@@ -14,8 +14,8 @@ import java.util.Optional;
 @Repository
 public interface VerbRepository extends JpaRepository<VerbEntity, Integer> {
     Page<VerbEntity> findByBaseFormLike(String baseForm, Pageable pageable);
-    Page<VerbEntity> findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(String baseForm, String pastTenseForm, String pastParticipleForm, Pageable pageable);
-
+//    Page<VerbEntity> findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(String baseForm, String pastTenseForm, String pastParticipleForm, Pageable pageable);
+    Page<VerbEntity> findByBaseFormIgnoreCaseLikeOrPastTenseFormIgnoreCaseLikeOrPastParticipleFormIgnoreCaseLike(String baseForm, String pastTenseForm, String pastParticipleForm, Pageable pageable);
     List<VerbEntity> findAllByLearningStatus(LearningStatus status);
 
     List<VerbEntity> findAllByVerbIdIn(List<Integer> verbIds, Sort sort);

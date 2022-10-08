@@ -6,3 +6,10 @@ Integrated Text to Speech using SpeechSynthesisVoice
 
 
 Integrated ngGrid, but not working properly
+
+
+How to setup local server to access outside network - but not working. need to work on it
+
+https://www.tp-link.com/us/support/faq/1379/
+
+

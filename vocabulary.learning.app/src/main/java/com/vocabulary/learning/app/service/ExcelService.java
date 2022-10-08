@@ -1,6 +1,7 @@
 package com.vocabulary.learning.app.service;
 
 import com.vocabulary.learning.app.AppConstants;
+import com.vocabulary.learning.app.enums.LearningStatus;
 import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.model.VerbSearchRequest;
 import org.apache.commons.collections4.CollectionUtils;
@@ -223,10 +224,17 @@ public class ExcelService {
                         verb.getExamples().add(examplesRow.getCell(exampleCounter)+"");
                     }
                 }
+                verb.setLearningStatus(LearningStatus.NOT_STARTED);
                 verbList.add(verb);
             }
 
             System.out.println(verbList);
+
+            if(CollectionUtils.isNotEmpty(verbList)){
+                verbService.insertVerbs(verbList);
+            }else{
+                throw new RuntimeException("No records found in the excel");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

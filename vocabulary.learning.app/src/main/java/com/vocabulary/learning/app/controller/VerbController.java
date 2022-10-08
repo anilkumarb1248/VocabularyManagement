@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,6 +116,26 @@ public class VerbController {
             verbService.updateVerb(verb);
             individualResponse.setStatus(Status.SUCCESS);
             return () -> new ResponseEntity<>(individualResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error("Exception occurred while inserting the verbs: ", e);
+            individualResponse.setStatus(Status.ERROR);
+            individualResponse.setMsg(e.getMessage());
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("verb/{verbId}")
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> deleteVerb(@PathVariable Integer verbId) {
+        IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
+        if (verbId == null) {
+            individualResponse.setStatus(Status.BAD_REQUEST);
+            individualResponse.setMsg("Verb Id must not be null");
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.BAD_REQUEST);
+        }
+        try {
+            verbService.deleteVerb(verbId);
+            individualResponse.setStatus(Status.SUCCESS);
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("Exception occurred while inserting the verbs: ", e);
             individualResponse.setStatus(Status.ERROR);

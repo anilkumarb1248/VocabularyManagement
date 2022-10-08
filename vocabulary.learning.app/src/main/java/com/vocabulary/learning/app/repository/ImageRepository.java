@@ -12,10 +12,11 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
 
     Optional<ImageEntity> findByName(String name);
+
     Optional<ImageEntity> findByVerbId(Integer verbId);
 
     @Modifying
-    @Query(value = "DELETE FROM IMAGE WHERE VERB_ID= :verbId", nativeQuery = true)
+    @Query(value = "DELETE FROM IMAGE WHERE VERB_ID = :verbId", nativeQuery = true)
     public void deleteByVerbId(Integer verbId);
 
 }

@@ -34,4 +34,8 @@ export class VerbService {
     return this.http.post<IndividualResponse>(this.verbsManagementURL+"verbs", verbs);
   }
 
+  deleteVerb(verbId:number): Observable<IndividualResponse> {
+    return this.http.delete<IndividualResponse>(this.verbsManagementURL+"verb/"+verbId);
+  }
+
 }

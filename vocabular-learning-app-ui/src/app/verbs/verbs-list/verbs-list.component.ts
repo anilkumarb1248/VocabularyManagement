@@ -94,6 +94,8 @@ export class VerbsListComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.verbs = new Array();
+        this.initialLoadedData = new Array();
         this.isLoaded = true;
       }
     );
@@ -106,22 +108,28 @@ export class VerbsListComponent implements OnInit {
       }
     } else {
       let searchedVerbs: Verb[] = [];
-      console.log("Search Started");
+      this.searchInput = this.searchInput.toLowerCase().trim();
       if (this.searchType == "starting") {
         for (let verb of this.initialLoadedData) {
-          if(verb.baseForm.startsWith(this.searchInput) || verb.pastTenseForm.startsWith(this.searchInput) || verb.pastParticipleForm.startsWith(this.searchInput)){
+          if(verb.baseForm.toLowerCase().startsWith(this.searchInput) || verb.pastTenseForm.toLowerCase().startsWith(this.searchInput) || verb.pastParticipleForm.toLowerCase().startsWith(this.searchInput) ||
+          verb.baseForm.toLowerCase()== this.searchInput || verb.pastTenseForm.toLowerCase() == this.searchInput || verb.pastParticipleForm.toLowerCase() == this.searchInput
+          ){
             searchedVerbs.push(verb);
           }
         }
       } else if (this.searchType == "ending") {
         for (let verb of this.initialLoadedData) {
-          if(verb.baseForm.endsWith(this.searchInput) || verb.pastTenseForm.endsWith(this.searchInput) || verb.pastParticipleForm.endsWith(this.searchInput)){
+          if(verb.baseForm.toLowerCase().endsWith(this.searchInput) || verb.pastTenseForm.toLowerCase().endsWith(this.searchInput) || verb.pastParticipleForm.toLowerCase().endsWith(this.searchInput) ||
+          verb.baseForm.toLowerCase()== this.searchInput || verb.pastTenseForm.toLowerCase() == this.searchInput || verb.pastParticipleForm.toLowerCase() == this.searchInput
+          ){
             searchedVerbs.push(verb);
           }
         }
       } else {
         for (let verb of this.initialLoadedData) {
-          if(verb.baseForm.includes(this.searchInput) || verb.pastTenseForm.includes(this.searchInput) || verb.pastParticipleForm.includes(this.searchInput)){
+          if(verb.baseForm.toLowerCase().includes(this.searchInput) || verb.pastTenseForm.toLowerCase().includes(this.searchInput) || verb.pastParticipleForm.toLowerCase().includes(this.searchInput) ||
+          verb.baseForm.toLowerCase()== this.searchInput || verb.pastTenseForm.toLowerCase() == this.searchInput || verb.pastParticipleForm.toLowerCase() == this.searchInput
+          ){
             searchedVerbs.push(verb);
           }
         }
@@ -270,6 +278,18 @@ export class VerbsListComponent implements OnInit {
 
   closePopup(verbWindowModal:any){
     verbWindowModal.dismiss();
+  }
+
+  deleteVerb(verbId: number){
+    this.verbService.deleteVerb(verbId).subscribe(
+      (data) => {
+        console.log(data.getStatus);
+        this.loadVerbsList();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }
 

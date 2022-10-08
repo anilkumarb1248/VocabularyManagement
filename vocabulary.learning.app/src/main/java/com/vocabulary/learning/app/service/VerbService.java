@@ -8,6 +8,7 @@ import com.vocabulary.learning.app.exception.DuplicateVerbException;
 import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.model.VerbSearchRequest;
 import com.vocabulary.learning.app.repository.ExampleRepository;
+import com.vocabulary.learning.app.repository.ImageRepository;
 import com.vocabulary.learning.app.repository.MeaningRepository;
 import com.vocabulary.learning.app.repository.VerbRepository;
 import org.apache.commons.collections4.CollectionUtils;
@@ -31,20 +32,24 @@ public class VerbService {
     private final VerbRepository verbRepository;
     private final ExampleRepository exampleRepository;
     private final MeaningRepository meaningRepository;
+    private final ImageRepository imageRepository;
 
     @Autowired
     public VerbService(
             VerbRepository verbRepository,
             ExampleRepository exampleRepository,
-            MeaningRepository meaningRepository) {
+            MeaningRepository meaningRepository,
+            ImageRepository imageRepository
+    ) {
         this.verbRepository = verbRepository;
         this.exampleRepository = exampleRepository;
         this.meaningRepository = meaningRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<Verb> getAllVerbs(VerbSearchRequest verbSearchRequest) {
-        List<VerbEntity> verbEntities = null;
-        if ("All".equalsIgnoreCase(verbSearchRequest.getSelectedLetter())) {
+        List<VerbEntity> verbEntities;
+        if ("All".equalsIgnoreCase(verbSearchRequest.getSelectedLetter()) && StringUtils.isBlank(verbSearchRequest.getSearchInput())) {
             verbEntities = findAllVerbs();
         } else if (StringUtils.isNotBlank(verbSearchRequest.getLearningStatus())) {
             verbEntities = findByLearningStatus(verbSearchRequest.getLearningStatus());
@@ -77,13 +82,13 @@ public class VerbService {
             page = verbRepository.findByBaseFormLike(request.getSelectedLetter() + "%", pageable);
         } else {
             if ("starting".equalsIgnoreCase(request.getSearchType())) {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                page = verbRepository.findByBaseFormIgnoreCaseLikeOrPastTenseFormIgnoreCaseLikeOrPastParticipleFormIgnoreCaseLike(
                         request.getSearchInput() + "%", request.getSearchInput() + "%", request.getSearchInput() + "%", pageable);
             } else if ("ending".equalsIgnoreCase(request.getSearchType())) {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                page = verbRepository.findByBaseFormIgnoreCaseLikeOrPastTenseFormIgnoreCaseLikeOrPastParticipleFormIgnoreCaseLike(
                         "%" + request.getSearchInput(), "%" + request.getSearchInput(), "%" + request.getSearchInput(), pageable);
             } else {
-                page = verbRepository.findByBaseFormLikeOrPastTenseFormLikeOrPastParticipleFormLike(
+                page = verbRepository.findByBaseFormIgnoreCaseLikeOrPastTenseFormIgnoreCaseLikeOrPastParticipleFormIgnoreCaseLike(
                         "%" + request.getSearchInput() + "%", "%" + request.getSearchInput() + "%", "%" + request.getSearchInput() + "%", pageable);
             }
         }
@@ -245,5 +250,11 @@ public class VerbService {
 //        verb.setUpdatedTimeStamp(entity.getUpdatedTimeStamp());
 
         return verb;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public void deleteVerb(Integer verbId) {
+        imageRepository.deleteByVerbId(verbId);
+        verbRepository.deleteById(verbId);
     }
 }
