@@ -4,6 +4,7 @@ import com.vocabulary.learning.app.entity.ExampleEntity;
 import com.vocabulary.learning.app.entity.MeaningEntity;
 import com.vocabulary.learning.app.entity.VerbEntity;
 import com.vocabulary.learning.app.enums.LearningStatus;
+import com.vocabulary.learning.app.exception.DuplicateVerbException;
 import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.model.VerbSearchRequest;
 import com.vocabulary.learning.app.repository.ExampleRepository;
@@ -103,7 +104,7 @@ public class VerbService {
         }
     }
 
-    public List<Verb> findAllByVerbIds(List<Integer> verbIds, String order){
+    public List<Verb> findAllByVerbIds(List<Integer> verbIds, String order) {
         List<Verb> verbList = new ArrayList<>();
 
         Sort sort = Sort.by(Sort.Direction.fromString(order), "baseForm");
@@ -118,10 +119,10 @@ public class VerbService {
         return verbList;
     }
 
-    public Verb getVerbDetails(Integer verbId){
+    public Verb getVerbDetails(Integer verbId) {
         Verb verb = null;
         Optional<VerbEntity> optional = verbRepository.findById(verbId);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             verb = mapToDTO(optional.get(), null);
         }
         return verb;
@@ -131,34 +132,59 @@ public class VerbService {
     public void insertVerbs(List<Verb> verbList) {
         List<VerbEntity> verbEntities = new ArrayList<>();
         verbList.stream().forEach(verb -> {
-            verbEntities.add(mapToVerbEntity(verb, null));
+            if (!isDuplicateVerb(verb, true)) {
+                verbEntities.add(mapToVerbEntity(verb, null));
+            }
         });
-
         if (!CollectionUtils.isEmpty(verbEntities)) {
             verbRepository.saveAll(verbEntities);
         }
     }
 
+    private boolean isDuplicateVerb(Verb verb, boolean newEntryFlag) {
+        Optional<VerbEntity> optional = verbRepository.findByBaseForm(verb.getBaseForm());
+        if (optional.isEmpty()) {
+            return false;
+        } else {
+            if (newEntryFlag) {
+                return true;
+            } else {
+                if (verb.getVerbId() == optional.get().getVerbId()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void insertVerb(Verb verb) {
-        VerbEntity verbEntity = mapToVerbEntity(verb, null);
-        verbRepository.save(verbEntity);
+        if (!isDuplicateVerb(verb, true)) {
+            VerbEntity verbEntity = mapToVerbEntity(verb, null);
+            verbRepository.save(verbEntity);
+        } else {
+            throw new DuplicateVerbException("Duplicate verb with name: " + verb.getBaseForm());
+        }
+
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateVerb(Verb verb) {
-
         VerbEntity entity = null;
-
-        Optional<VerbEntity> optionalVerbEntity = verbRepository.findById(verb.getVerbId());
-        if (optionalVerbEntity.isPresent()) {
-            entity = optionalVerbEntity.get();
-            meaningRepository.deleteByVerbId(entity.getVerbId());
-            exampleRepository.deleteByVerbId(entity.getVerbId());
+        if (!isDuplicateVerb(verb, false)) {
+            Optional<VerbEntity> optionalVerbEntity = verbRepository.findById(verb.getVerbId());
+            if (optionalVerbEntity.isPresent()) {
+                entity = optionalVerbEntity.get();
+                meaningRepository.deleteByVerbId(entity.getVerbId());
+                exampleRepository.deleteByVerbId(entity.getVerbId());
+            }
+            entity = mapToVerbEntity(verb, entity);
+            verbRepository.save(entity);
+        } else {
+            throw new DuplicateVerbException("Duplicate verb with name: " + verb.getBaseForm());
         }
 
-        entity = mapToVerbEntity(verb, entity);
-        verbRepository.save(entity);
     }
 
     private VerbEntity mapToVerbEntity(Verb verb, VerbEntity entity) {
@@ -206,7 +232,7 @@ public class VerbService {
         verb.setPhonetics(entity.getPhonetics());
         verb.setLearningStatus(entity.getLearningStatus());
 
-        if(request == null || !request.isExcludedChildren()){
+        if (request == null || !request.isExcludedChildren()) {
             entity.getMeanings().stream().forEach(meaning -> {
                 verb.getMeanings().add(meaning.getMeaning());
             });

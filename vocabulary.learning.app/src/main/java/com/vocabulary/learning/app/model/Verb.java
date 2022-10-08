@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 @ToString
 public class Verb {
     private Integer verbId;
+
+    @NotBlank(message = "Base Form should not be blank")
     private String baseForm;
     private String pastTenseForm;
     private String pastParticipleForm;
@@ -23,7 +26,6 @@ public class Verb {
     private String progressiveForm;
     private String phonetics;
     private List<String> meanings = new ArrayList<>();
-//    private List<String> images = new ArrayList<>();
     private List<String> examples = new ArrayList<>();
     private LocalDateTime createdTimeStamp;
     private LocalDateTime updatedTimeStamp;

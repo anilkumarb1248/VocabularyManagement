@@ -12,7 +12,7 @@ import { AgGridSampleComponent } from './ag-grid/ag-grid-sample/ag-grid-sample.c
 import { HeaderComponent } from './commons/header/header.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    NgbModule
+    BrowserAnimationsModule
+    // NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

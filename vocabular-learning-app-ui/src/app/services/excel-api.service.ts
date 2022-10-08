@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../app-constants';
+import { IndividualResponse } from '../models/individual-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,16 @@ export class ExcelAPIService {
     this.excelURL = appConstants.BASE_URL + "excel/"
   }
 
-  getExportVerbsUrl():string{
+  getExcelVerbsUrl():string{
     return this.excelURL + "verbs";
   }
 
   exportVerbsToFile(){
-    window.open(this.getExportVerbsUrl());
+    window.open(this.getExcelVerbsUrl());
   }
 
   exportCurrentGridVerbs(ids:number[], order:string){
-    window.open(this.getExportVerbsUrl() + "/ids?ids="+ids+"&order="+order);
+    window.open(this.getExcelVerbsUrl() + "/ids?ids="+ids+"&order="+order);
   }
 
   exportVerbs(): Observable<any> {
@@ -34,5 +35,13 @@ export class ExcelAPIService {
       responseType: 'blob' as 'json'
    }
     return this.http.get<any>(this.excelURL + "verbs", HTTPOptions);
+  }
+
+  exportVerbsSampleFile(){
+    window.open(this.getExcelVerbsUrl() + "/sample");
+  }
+
+  uploadVerbsExcelFile(uploadExcelData: FormData):Observable<IndividualResponse>{
+    return this.http.post<IndividualResponse>(this.excelURL + "verbs/upload", uploadExcelData);
   }
 }

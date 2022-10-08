@@ -30,4 +30,8 @@ export class VerbService {
     return this.http.put<IndividualResponse>(this.verbsManagementURL, updatedVerb);
   }
 
+  saveVerbs(verbs:Verb[]): Observable<IndividualResponse> {
+    return this.http.post<IndividualResponse>(this.verbsManagementURL+"verbs", verbs);
+  }
+
 }

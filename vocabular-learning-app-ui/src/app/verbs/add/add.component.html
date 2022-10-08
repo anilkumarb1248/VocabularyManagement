@@ -1,0 +1,62 @@
+<div>
+    <div class="row">
+        <div class="col" style="text-align: left;margin-top: -10px;">
+            <button class="btn btn-secondary btn-vsm" (click)="adEmptyRecords(5)" title="Add Empty Rows">Add Rows</button>
+        </div>
+        <div class="col" style="text-align: right;margin-top: -10px;">
+            <button type="button" class="btn btn-success btn-sm" (click)="saveVerbs()">Save</button>
+            <button type="button" class="btn btn-warning btn-sm" (click)="closePopup()"
+                style="margin-left:15px;">Close</button>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-sm table-bordered table-hover">
+            <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+                <tr style="text-align: center;">
+                    <th>S.No:</th>
+                    <th>Base Form</th>
+                    <th>Past Tense Form</th>
+                    <th>Past Participle Form</th>
+                    <th>Third Person Form</th>
+                    <th>Progressive Form</th>
+                    <th>Phonetics</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let verb of verbs;index as i">
+                <tr [class]="geClass(i)">
+                    <td>{{i+1}}</td>
+                    <td><input type="text" [(ngModel)]="verb.baseForm" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="verb.pastTenseForm" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="verb.pastParticipleForm" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="verb.thirdPersonBaseForm" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="verb.progressiveForm" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="verb.phonetics" class="form-control input-style"></td>
+                    <td>
+                        <button class="btn btn-info btn-vsm" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#span-'+i" aria-expanded="true"
+                            [attr.aria-controls]="'#span-'+i">::</button>
+                    </td>
+                </tr>
+                <tr class="collapse" id="span-{{i}}">
+                    <td colspan="8">
+                        <div class="card card-body">
+                            <div class="row" style="margin-top: -20px;">
+                                <div class="col-md-6">
+                                    <label for="meaningsTextAreaId"><b>Meanings:</b></label>
+                                    <textarea class="form-control" id="meaningsTextAreaId1" name="text"
+                                    [(ngModel)]="verb.meanings" style="width: 500px;height:100px;"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="examplesTextAreaId"><b>Examples:</b></label>
+                                    <textarea class="form-control" id="examplesTextAreaId1" name="text"
+                                    [(ngModel)]="verb.examples" style="width: 500px;height:100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

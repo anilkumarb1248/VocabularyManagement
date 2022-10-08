@@ -38,6 +38,9 @@ export class VerbsListComponent implements OnInit {
   modalOptions:NgbModalOptions | undefined;
   currentViewVerbId:number = 0;
 
+  isViewVerbClicked:boolean = false;
+  isAddVerbClicked:boolean = false;
+
   constructor(
     private verbService: VerbService,
     private speaker: Speaker,
@@ -85,7 +88,7 @@ export class VerbsListComponent implements OnInit {
       (data) => {
         this.listResponse = data;
         this.verbs = this.listResponse.values;
-        this.initialLoadedData = this.verbs;
+        this.initialLoadedData = this.listResponse.values;
         this.totalRecords = this.verbs.length;
         this.isLoaded = true;
       },
@@ -103,20 +106,21 @@ export class VerbsListComponent implements OnInit {
       }
     } else {
       let searchedVerbs: Verb[] = [];
+      console.log("Search Started");
       if (this.searchType == "starting") {
-        for (let verb of this.verbs) {
+        for (let verb of this.initialLoadedData) {
           if(verb.baseForm.startsWith(this.searchInput) || verb.pastTenseForm.startsWith(this.searchInput) || verb.pastParticipleForm.startsWith(this.searchInput)){
             searchedVerbs.push(verb);
           }
         }
       } else if (this.searchType == "ending") {
-        for (let verb of this.verbs) {
+        for (let verb of this.initialLoadedData) {
           if(verb.baseForm.endsWith(this.searchInput) || verb.pastTenseForm.endsWith(this.searchInput) || verb.pastParticipleForm.endsWith(this.searchInput)){
             searchedVerbs.push(verb);
           }
         }
       } else {
-        for (let verb of this.verbs) {
+        for (let verb of this.initialLoadedData) {
           if(verb.baseForm.includes(this.searchInput) || verb.pastTenseForm.includes(this.searchInput) || verb.pastParticipleForm.includes(this.searchInput)){
             searchedVerbs.push(verb);
           }
@@ -196,11 +200,77 @@ export class VerbsListComponent implements OnInit {
 
 
   viewCurrentVerb(verb: Verb, verbModal: any){
+    this.setAllModalFlagsFalse();
+    this.isViewVerbClicked = true;
+    
     this.currentViewVerbId = verb.verbId;
-    this.modalService.open(verbModal, this.modalOptions)
+    this.modalService.open(verbModal, {backdrop:'static',size:'xl',fullscreen: 'xl'})
 
   }
 
+  addVerbsList(verbModal: any){
+    this.setAllModalFlagsFalse();
+    this.isAddVerbClicked = true;
+
+    this.modalService.open(verbModal, {backdrop:'static',size:'xl',fullscreen: 'xl'})
+
+  }
+
+  setAllModalFlagsFalse(){
+    this.isViewVerbClicked = false;
+    this.isAddVerbClicked = false;
+    this.isImportFromExcelbtnClicked = false;
+  }
+
+  isImportFromExcelbtnClicked:boolean = false;
+
+  importFromExcelbtnClicked(verbModal: any){
+    this.setAllModalFlagsFalse();
+    this.isImportFromExcelbtnClicked = true;
+
+    this.modalOptions = {
+      backdrop:'static',
+      // size:'xl',
+    }
+    this.modalService.open(verbModal, {backdrop: 'static', size:'sm'})
+
+  }
+
+  importedExcelFile : File | undefined;
+  onUploadVerbsExcelChangeEvent(event:any){
+    this.importedExcelFile = event.target.files[0];
+    console.log("File imported to browser");
+  }
+
+  uploadVerbsExcelFile(verbWindowModal:any){
+    if(this.importedExcelFile){
+      const uploadExcelData = new FormData();
+      uploadExcelData.append('verbsExcelFile', this.importedExcelFile, this.importedExcelFile.name);
+      this.closePopup(verbWindowModal);
+
+      this.excelAPIService.uploadVerbsExcelFile(uploadExcelData).subscribe(
+        (data) => {
+          console.log(data.getStatus);
+          
+          this.loadVerbsList();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }else{
+      console.log("Please upload an excel file");
+    }
+    
+  }
+
+  exportVerbsExcelSample(){
+    this.excelAPIService.exportVerbsSampleFile();
+  }
+
+  closePopup(verbWindowModal:any){
+    verbWindowModal.dismiss();
+  }
 }
 
 

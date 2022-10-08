@@ -75,33 +75,35 @@ export class ViewComponent implements OnInit {
 
   updateVerb(): void {
     let form = this.verbForm.value;
-
-    let updatedVerb: Verb = new Verb(
-      form.verbId,
-      form.baseForm,
-      form.pastTenseForm,
-      form.pastParticipleForm,
-      form.thirdPersonBaseForm,
-      form.progressiveForm,
-      form.phonetics,
-      this.splitText(form.meanings),
-      this.splitText(form.examples),
-      form.learningStatus,
-      form.createdTimeStamp,
-      form.updatedTimeStamp
-    );
-
-    this.verbService.updateVerb(updatedVerb).subscribe(
-      (data) => {
-        console.log(data.getStatus);
-        this.closePopup();
-      },
-      (error) => {
-        console.log(error);
-        // this.verbWindowModal.dismiss('Cross click');
-      }
-    );
-
+    if(form.baseForm){
+      let updatedVerb: Verb = new Verb(
+        form.verbId,
+        form.baseForm,
+        form.pastTenseForm,
+        form.pastParticipleForm,
+        form.thirdPersonBaseForm,
+        form.progressiveForm,
+        form.phonetics,
+        this.splitText(form.meanings),
+        this.splitText(form.examples),
+        form.learningStatus,
+        form.createdTimeStamp,
+        form.updatedTimeStamp
+      );
+  
+      this.verbService.updateVerb(updatedVerb).subscribe(
+        (data) => {
+          console.log(data.getStatus);
+          this.closePopup();
+        },
+        (error) => {
+          console.log(error);
+          // this.verbWindowModal.dismiss('Cross click');
+        }
+      );
+    }else{
+      console.log("Base Form should not be null");
+    }
   }
 
   closePopup(){

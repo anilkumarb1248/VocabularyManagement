@@ -55,7 +55,7 @@
             <div class="row" style="margin-top: 10px; margin-left: 10px;">
                 <div class="col-md-8">
                     <div class="row">
-                        <label for="meaningsTextAreaId">Meanings: <span class="badge"><img
+                        <label for="meaningsTextAreaId"><b>Meanings:</b> <span class="badge"><img
                                     src="../assets/images/speak.png" class="image-style"
                                     (click)="textToSpeak('meanings')"></span></label>
                         <textarea class="form-control" id="meaningsTextAreaId" name="text" formControlName="meanings"
@@ -63,7 +63,7 @@
 
                     </div>
                     <div class="row">
-                        <label for="examplesTextAreaId">Examples:<span class="badge"><img
+                        <label for="examplesTextAreaId"><b>Examples:</b><span class="badge"><img
                                     src="../assets/images/speak.png" class="image-style"
                                     (click)="textToSpeak('examples')"></span></label>
                         <textarea class="form-control" id="examplesTextAreaId" name="text" formControlName="examples"
@@ -75,7 +75,7 @@
                     <label for="imageId">
                         <span class="badge" style="color:black;">
                             <input type="file" id="imageId" (change)="onFileChanged($event)">
-                            <input type="button" class="btn btn-primary btn-vsm" (click)="onUpload(verbData?.verbId)" value="upload">
+                            <input type="button" class="btn btn-primary btn-vsm" (click)="onUpload(verbData?.verbId)" value="Upload">
                             <input type="button"class="btn btn-danger btn-vsm" (click)="deleteImage(verbData?.verbId)" value="Delete" style="margin-left: 5px;">
                         </span>
                     </label>

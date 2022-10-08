@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -76,7 +76,7 @@ public class VerbController {
     }
 
     @PostMapping("/verbs")
-    public Callable<ResponseEntity<IndividualResponse<Verb>>> insertVerbs(@RequestBody List<Verb> verbList) {
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> insertVerbs(@RequestBody @Valid List<Verb> verbList) {
 
         IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
         try {
@@ -92,7 +92,7 @@ public class VerbController {
     }
 
     @PostMapping("/verb")
-    public Callable<ResponseEntity<IndividualResponse<Verb>>> insertVerb(@RequestBody Verb verb) {
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> insertVerb(@RequestBody @Valid Verb verb) {
 
         IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
         try {
@@ -108,7 +108,7 @@ public class VerbController {
     }
 
     @PutMapping
-    public Callable<ResponseEntity<IndividualResponse<Verb>>> updateVerb(@RequestBody Verb verb) {
+    public Callable<ResponseEntity<IndividualResponse<Verb>>> updateVerb(@RequestBody @Valid Verb verb) {
 
         IndividualResponse<Verb> individualResponse = new IndividualResponse<>();
         try {

@@ -1,22 +1,20 @@
-
 <div>
   <div *ngIf="!isLoaded">
     <div class="progress" style="height: 20px; margin-top: 20px;">
-      <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+      <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
     </div>
   </div>
   <div *ngIf="isLoaded" style="margin-top: 10px;">
-    <table>
-      <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
-        
-      </thead>
-    </table>
+
     <table class="table table-sm table-bordered table-hover">
+
       <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+
         <tr class="table-light">
           <th colspan="9">
             <div class="row" style="margin-top: 5px;">
-              <div class="col" style="color:blue;">
+              <div class="col" style="color:blue;width:20px">
                 Total: {{totalRecords}}
               </div>
               <div class="col">
@@ -27,37 +25,31 @@
                 </select>
               </div>
               <div class="col">
-                <input type="text" [(ngModel)]="searchInput" class="form-control search-input-style" id="baseFormSearch"
-                  placeholder="Search">
-                </div>
-                <div class="col" style="margin-left: -23px;">
-                  <button class="btn btn-vsm" (click)="searchInLoadedData()" title="Search in Table">:::</button>
-                </div>
-              <div class="col" style="margin-left: -40px;">
+                <input type="text" [(ngModel)]="searchInput" class="form-control search-input-style"
+                  style="margin-left: -10px;" id="baseFormSearch" placeholder="Search">
+              </div>
+              <div class="col" style="margin-left: -28px;">
+                <button class="btn btn-vsm" (click)="searchInLoadedData()" title="Search in Table">:::</button>
+              </div>
+              <div class="col" style="margin-left: -65px;">
                 Or
               </div>
-              <div class="col" style="margin-left: -50px;">
+              <div class="col" style="margin-left: -60px;">
                 <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId"
                   style="width: 80px;">
                   <option *ngFor="let letter of allLetters; index as j">{{letter}}</option>
                 </select>
               </div>
-              <div class="col">
+              <div class="col" style="margin-left: -15px;">
                 And
               </div>
-              <div class="col">
-                Order:
-              </div>
-              <div class="col" style="margin-left: -45px;">
+              <div class="col" style="margin-left: -35px;">
                 <select [(ngModel)]="sortOrder" class="custom-select" id="orderSelectionId" style="width: 110px;">
                   <option selected value="ASC">Ascending</option>
                   <option value="DESC">Descending</option>
                 </select>
               </div>
-              <div class="col">
-                Size:
-              </div>
-              <div class="col" style="margin-left: -55px;">
+              <div class="col" style="margin-left: -10px;">
                 <select [(ngModel)]="recordsSize" class="custom-select" id="recordsSizeSelectionId"
                   style="width: 60px;">
                   <option selected value="10">10</option>
@@ -72,19 +64,32 @@
               </div>
 
               <div class="col" style="text-align: center;">
-                <button class="btn btn-vsm btn-warning" (click)="modifySearh()" title="Search in Database">Search</button>
+                <button class="btn btn-vsm btn-warning" (click)="modifySearh()" title="Search in Database">Search
+                  DB</button>
               </div>
 
               <div class="col" style="text-align: center;">
-                <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()">Speak All</button>
-                <button *ngIf="!showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="stopSpeaking()">Stop</button>
+                <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()"
+                  title="Speak all the Verbs">Speak All</button>
+                <button *ngIf="!showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="stopSpeaking()"
+                  title="Stop Speaking Verbs">Stop</button>
               </div>
 
               <div class="col" style="text-align: center;">
-                <button class="btn btn-vsm btn-primary" (click)="exportVerbs()">Export All</button>
+                <button class="btn btn-vsm btn-success" (click)="addVerbsList(verbModal)"
+                  title="Add List of New Verbs">Add Verbs</button>
               </div>
               <div class="col" style="text-align: center;">
-                <button class="btn btn-vsm btn-info" (click)="exportCurrentGridVerbs()">Export Grid</button>
+                <button class="btn btn-vsm btn-info" (click)="exportCurrentGridVerbs()"
+                  title="Export Searched Verbs">Export Grid</button>
+              </div>
+              <div class="col" style="text-align: center;">
+                <button class="btn btn-vsm btn-primary" (click)="exportVerbs()" title="Export All Verbs">Export
+                  All</button>
+              </div>
+              <div class="col" style="text-align: center;">
+                <button class="btn btn-vsm btn-success" (click)="importFromExcelbtnClicked(verbModal)"
+                  title="Import from Excel">Import</button>
               </div>
             </div>
           </th>
@@ -112,19 +117,19 @@
                 (click)="textToSpeak(verb.baseForm)"></span>
           </td>
           <td>{{verb.pastTenseForm}}
-            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+            <span class="badge"><img *ngIf="verb.pastTenseForm" src="../assets/images/speak.png" class="image-style"
                 (click)="textToSpeak(verb.pastTenseForm)"></span>
           </td>
           <td>{{verb.pastParticipleForm}}
-            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                (click)="textToSpeak(verb.pastParticipleForm)"></span>
+            <span class="badge"><img *ngIf="verb.pastParticipleForm" src="../assets/images/speak.png"
+                class="image-style" (click)="textToSpeak(verb.pastParticipleForm)"></span>
           </td>
           <td>{{verb.thirdPersonBaseForm}}
-            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
-                (click)="textToSpeak(verb.thirdPersonBaseForm)"></span>
+            <span class="badge"><img *ngIf="verb.thirdPersonBaseForm" src="../assets/images/speak.png"
+                class="image-style" (click)="textToSpeak(verb.thirdPersonBaseForm)"></span>
           </td>
           <td>{{verb.progressiveForm}}
-            <span class="badge"><img src="../assets/images/speak.png" class="image-style"
+            <span class="badge"><img *ngIf="verb.progressiveForm" src="../assets/images/speak.png" class="image-style"
                 (click)="textToSpeak(verb.progressiveForm)"></span>
           </td>
           <td>{{verb.phonetics}}</td>
@@ -132,10 +137,10 @@
           <td style="width: 80px;text-align: center;">
             <!-- <button class="btn btn-info btn-vsm" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+verb.baseForm"
               aria-expanded="true" [attr.aria-controls]="'#'+verb.baseForm">View</button> -->
-           
-              <button class="btn btn-info btn-vsm" (click)="viewCurrentVerb(verb, verbModal)">View</button>
 
-            </td>
+            <button class="btn btn-info btn-vsm" (click)="viewCurrentVerb(verb, verbModal)">View</button>
+
+          </td>
         </tr>
         <!-- <tr class="collapse" id="{{verb.baseForm}}">
           <td colspan="9">
@@ -150,12 +155,35 @@
   </div>
 
   <ng-template #verbModal let-verbWindowModal>
-      <!-- <div class="modal-header">
+    <!-- <div class="modal-header">
         <button type="button" class="close" aria-label="Close" (click)="verbWindowModal.dismiss('Cross click')">
           Close
         </button>
       </div> -->
-      <div class="modal-body">
+    <div class="modal-body">
+      <div *ngIf="isViewVerbClicked">
         <app-view [verbId]="currentViewVerbId" [verbWindowModal]="verbWindowModal"></app-view>
       </div>
+
+      <div *ngIf="isAddVerbClicked">
+
+        <app-add [verbWindowModal]="verbWindowModal"></app-add>
+      </div>
+
+      <div *ngIf="isImportFromExcelbtnClicked" style="height:100px;">
+        <div class="row" style="text-align: center; margin-top: 15px;">
+          <input type="file" id="importExcelId" (change)="onUploadVerbsExcelChangeEvent($event)">
+        </div>
+        <div class="row" style="text-align: right; margin-top: 25px;">
+          <div class="col">
+            <button class="btn btn-primary btn-vsm" (click)="uploadVerbsExcelFile(verbWindowModal)">Import</button>
+            <button class="btn btn-success btn-vsm" (click)="exportVerbsExcelSample()" style="margin-left: 5px;">Export
+              Sample</button>
+            <button class="btn btn-warning btn-vsm" (click)="closePopup(verbWindowModal)"
+              style="margin-left: 5px;">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </ng-template>

@@ -5,13 +5,15 @@ import { VerbsRoutingModule } from './verbs-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ViewComponent } from './view/view.component';
+import { AddComponent } from './add/add.component';
 
 
 
 @NgModule({
   declarations: [
     VerbsListComponent,
-    ViewComponent
+    ViewComponent,
+    AddComponent
   ],
   imports: [
     CommonModule,
