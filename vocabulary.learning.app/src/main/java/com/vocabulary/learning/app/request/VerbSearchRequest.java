@@ -1,4 +1,4 @@
-package com.vocabulary.learning.app.model;
+package com.vocabulary.learning.app.request;
 
 public class VerbSearchRequest {
     private String searchType;

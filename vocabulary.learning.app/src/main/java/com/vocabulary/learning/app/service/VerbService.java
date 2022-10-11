@@ -1,15 +1,15 @@
 package com.vocabulary.learning.app.service;
 
-import com.vocabulary.learning.app.entity.ExampleEntity;
-import com.vocabulary.learning.app.entity.MeaningEntity;
+import com.vocabulary.learning.app.entity.VerbExampleEntity;
+import com.vocabulary.learning.app.entity.VerbMeaningEntity;
 import com.vocabulary.learning.app.entity.VerbEntity;
 import com.vocabulary.learning.app.enums.LearningStatus;
 import com.vocabulary.learning.app.exception.DuplicateVerbException;
 import com.vocabulary.learning.app.model.Verb;
-import com.vocabulary.learning.app.model.VerbSearchRequest;
-import com.vocabulary.learning.app.repository.ExampleRepository;
+import com.vocabulary.learning.app.request.VerbSearchRequest;
+import com.vocabulary.learning.app.repository.VerbExampleRepository;
 import com.vocabulary.learning.app.repository.ImageRepository;
-import com.vocabulary.learning.app.repository.MeaningRepository;
+import com.vocabulary.learning.app.repository.VerbMeaningRepository;
 import com.vocabulary.learning.app.repository.VerbRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,45 +30,45 @@ import java.util.Optional;
 public class VerbService {
 
     private final VerbRepository verbRepository;
-    private final ExampleRepository exampleRepository;
-    private final MeaningRepository meaningRepository;
+    private final VerbExampleRepository verbExampleRepository;
+    private final VerbMeaningRepository verbMeaningRepository;
     private final ImageRepository imageRepository;
 
     @Autowired
     public VerbService(
             VerbRepository verbRepository,
-            ExampleRepository exampleRepository,
-            MeaningRepository meaningRepository,
+            VerbExampleRepository verbExampleRepository,
+            VerbMeaningRepository verbMeaningRepository,
             ImageRepository imageRepository
     ) {
         this.verbRepository = verbRepository;
-        this.exampleRepository = exampleRepository;
-        this.meaningRepository = meaningRepository;
+        this.verbExampleRepository = verbExampleRepository;
+        this.verbMeaningRepository = verbMeaningRepository;
         this.imageRepository = imageRepository;
     }
 
-    public List<Verb> getAllVerbs(VerbSearchRequest verbSearchRequest) {
+    public List<Verb> getAllVerbs(VerbSearchRequest request) {
         List<VerbEntity> verbEntities;
-        if ("All".equalsIgnoreCase(verbSearchRequest.getSelectedLetter()) && StringUtils.isBlank(verbSearchRequest.getSearchInput())) {
-            verbEntities = findAllVerbs();
-        } else if (StringUtils.isNotBlank(verbSearchRequest.getLearningStatus())) {
-            verbEntities = findByLearningStatus(verbSearchRequest.getLearningStatus());
+        if ("All".equalsIgnoreCase(request.getSelectedLetter()) && StringUtils.isBlank(request.getSearchInput())) {
+            verbEntities = findAllVerbs(StringUtils.isNotBlank(request.getSortOrder()) ? request.getSortOrder() : "ASC");
+        } else if (StringUtils.isNotBlank(request.getLearningStatus())) {
+            verbEntities = findByLearningStatus(request.getLearningStatus());
         } else {
-            verbEntities = findAllWithPagination(verbSearchRequest);
+            verbEntities = findAllWithPagination(request);
         }
 
         List<Verb> verbList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(verbEntities)) {
             verbEntities.stream().forEach(entity -> {
-                Verb verb = mapToDTO(entity, verbSearchRequest);
+                Verb verb = mapToDTO(entity, request);
                 verbList.add(verb);
             });
         }
         return verbList;
     }
 
-    private List<VerbEntity> findAllVerbs() {
-        Sort sort = Sort.by(Sort.Direction.fromString("ASC"), "baseForm");
+    private List<VerbEntity> findAllVerbs(String order) {
+        Sort sort = Sort.by(Sort.Direction.fromString(order), "baseForm");
         return verbRepository.findAll(sort);
     }
 
@@ -181,8 +181,8 @@ public class VerbService {
             Optional<VerbEntity> optionalVerbEntity = verbRepository.findById(verb.getVerbId());
             if (optionalVerbEntity.isPresent()) {
                 entity = optionalVerbEntity.get();
-                meaningRepository.deleteByVerbId(entity.getVerbId());
-                exampleRepository.deleteByVerbId(entity.getVerbId());
+                verbMeaningRepository.deleteByVerbId(entity.getVerbId());
+                verbExampleRepository.deleteByVerbId(entity.getVerbId());
             }
             entity = mapToVerbEntity(verb, entity);
             verbRepository.save(entity);
@@ -200,22 +200,22 @@ public class VerbService {
         verbEntity.setThirdPersonBaseForm(verb.getThirdPersonBaseForm());
         verbEntity.setProgressiveForm(verb.getProgressiveForm());
         verbEntity.setPhonetics(verb.getPhonetics());
-        List<MeaningEntity> meaningEntities = new ArrayList<>();
+        List<VerbMeaningEntity> meaningEntities = new ArrayList<>();
         verb.getMeanings().stream().forEach(meaning -> {
-            MeaningEntity meaningEntity = new MeaningEntity();
-            meaningEntity.setMeaning(meaning);
-            meaningEntities.add(meaningEntity);
+            VerbMeaningEntity verbMeaningEntity = new VerbMeaningEntity();
+            verbMeaningEntity.setMeaning(meaning);
+            meaningEntities.add(verbMeaningEntity);
         });
 
         if (!CollectionUtils.isEmpty(meaningEntities)) {
             verbEntity.setMeanings(meaningEntities);
         }
 
-        List<ExampleEntity> exampleEntities = new ArrayList<>();
+        List<VerbExampleEntity> exampleEntities = new ArrayList<>();
         verb.getExamples().stream().forEach(example -> {
-            ExampleEntity exampleEntity = new ExampleEntity();
-            exampleEntity.setExample(example);
-            exampleEntities.add(exampleEntity);
+            VerbExampleEntity verbExampleEntity = new VerbExampleEntity();
+            verbExampleEntity.setExample(example);
+            exampleEntities.add(verbExampleEntity);
         });
 
         if (!CollectionUtils.isEmpty(exampleEntities)) {

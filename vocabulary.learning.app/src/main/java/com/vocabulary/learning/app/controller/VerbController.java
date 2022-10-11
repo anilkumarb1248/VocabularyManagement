@@ -1,7 +1,7 @@
 package com.vocabulary.learning.app.controller;
 
 import com.vocabulary.learning.app.model.Verb;
-import com.vocabulary.learning.app.model.VerbSearchRequest;
+import com.vocabulary.learning.app.request.VerbSearchRequest;
 import com.vocabulary.learning.app.response.IndividualResponse;
 import com.vocabulary.learning.app.response.ListResponse;
 import com.vocabulary.learning.app.response.Status;
@@ -28,7 +28,13 @@ import java.util.concurrent.Callable;
 
 @RestController
 @RequestMapping("/VerbsLearning")
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.0.143:4200"})
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+        "http://192.168.0.143:4200",
+        "http://192.168.0.1:4200",
+        "http://desktop-ghd0jav:4200"
+})
 public class VerbController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerbController.class);

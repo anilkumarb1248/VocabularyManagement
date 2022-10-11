@@ -1,6 +1,7 @@
 package com.vocabulary.learning.app.model;
 
 import com.vocabulary.learning.app.enums.LearningStatus;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @NoArgsConstructor
 @Setter
 @Getter
@@ -27,9 +29,9 @@ public class Verb {
     private String phonetics;
     private List<String> meanings = new ArrayList<>();
     private List<String> examples = new ArrayList<>();
+    private LearningStatus learningStatus;
     private LocalDateTime createdTimeStamp;
     private LocalDateTime updatedTimeStamp;
-    private LearningStatus learningStatus;
 
     public String toStringFormat() {
         return new StringBuilder()

@@ -10,6 +10,7 @@ const routes: Routes = [
   { path:'agGridSample', component: AgGridSampleComponent},
   { path:'textToSpeech', component: TextToSpeechComponent},
   { path: 'verbs', loadChildren: () => import('./verbs/verbs.module').then(m => m.VerbsModule)},
+  { path: 'all-meanings', loadChildren: () => import('./all-meanings/all-meanings.module').then(m => m.AllMeaningsModule)},
   // { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate:[UserGuard]},
   // { path: 'employee', loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule),canActivate:[UserGuard] },
   // { path: 'topics', loadChildren: () => import('./topics/topics.module').then(m => m.TopicsModule) },
