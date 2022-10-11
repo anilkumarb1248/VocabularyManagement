@@ -3,7 +3,7 @@ package com.vocabulary.learning.app.service;
 import com.vocabulary.learning.app.AppConstants;
 import com.vocabulary.learning.app.enums.LearningStatus;
 import com.vocabulary.learning.app.model.Verb;
-import com.vocabulary.learning.app.model.VerbSearchRequest;
+import com.vocabulary.learning.app.request.VerbSearchRequest;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;

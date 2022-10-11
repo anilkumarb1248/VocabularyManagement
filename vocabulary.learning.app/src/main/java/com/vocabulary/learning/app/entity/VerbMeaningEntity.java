@@ -2,8 +2,6 @@ package com.vocabulary.learning.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,35 +11,34 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "EXAMPLE")
-public class ExampleEntity implements Serializable {
+@Table(name = "VERB_MEANING")
+public class VerbMeaningEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="EXAMPLE_ID", unique = true)
-    private Integer exampleId;
+    @Column(name="MEANING_ID", unique = true)
+    private Integer meaningId;
 
-    @Column(name="EXAMPLE", nullable = false)
-    private String example;
+    @Column(name="MEANING")
+    private String meaning;
 
     @ManyToOne
     @JoinColumn(name = "VERB_ID", nullable = false, insertable = false, updatable = false)
     private VerbEntity verbEntity;
-
-    public Integer getExampleId() {
-        return exampleId;
+    public Integer getMeaningId() {
+        return meaningId;
     }
 
-    public void setExampleId(Integer exampleId) {
-        this.exampleId = exampleId;
+    public void setMeaningId(Integer meaningId) {
+        this.meaningId = meaningId;
     }
 
-    public String getExample() {
-        return example;
+    public String getMeaning() {
+        return meaning;
     }
 
-    public void setExample(String example) {
-        this.example = example;
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
     }
 
     public VerbEntity getVerbEntity() {

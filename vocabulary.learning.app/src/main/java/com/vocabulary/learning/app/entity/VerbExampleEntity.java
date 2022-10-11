@@ -11,34 +11,35 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "MEANING")
-public class MeaningEntity implements Serializable {
+@Table(name = "VERB_EXAMPLE")
+public class VerbExampleEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="MEANING_ID", unique = true)
-    private Integer meaningId;
+    @Column(name="EXAMPLE_ID", unique = true)
+    private Integer exampleId;
 
-    @Column(name="MEANING")
-    private String meaning;
+    @Column(name="EXAMPLE", nullable = false)
+    private String example;
 
     @ManyToOne
     @JoinColumn(name = "VERB_ID", nullable = false, insertable = false, updatable = false)
     private VerbEntity verbEntity;
-    public Integer getMeaningId() {
-        return meaningId;
+
+    public Integer getExampleId() {
+        return exampleId;
     }
 
-    public void setMeaningId(Integer meaningId) {
-        this.meaningId = meaningId;
+    public void setExampleId(Integer exampleId) {
+        this.exampleId = exampleId;
     }
 
-    public String getMeaning() {
-        return meaning;
+    public String getExample() {
+        return example;
     }
 
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public void setExample(String example) {
+        this.example = example;
     }
 
     public VerbEntity getVerbEntity() {
