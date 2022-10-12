@@ -3,14 +3,14 @@ import { PageNotFoundComponent } from '../commons/page-not-found/page-not-found.
 import { Routes, RouterModule } from '@angular/router';
 import { AllMeaningsHomeComponent } from './all-meanings-home/all-meanings-home.component';
 import { AllMeaningsListComponent } from './all-meanings-list/all-meanings-list.component';
+import { AllMeaningsViewComponent } from './all-meanings-view/all-meanings-view.component';
 
 
 const routes: Routes = [
   {
     path: '', children: [
       { path: "", redirectTo: "all-meanings-home", pathMatch: "full" },
-      { path: "all-meanings-home", component: AllMeaningsHomeComponent },
-      { path: "all-meanings-list", component: AllMeaningsListComponent }
+      { path: "all-meanings-home", component: AllMeaningsHomeComponent }
 
     ]
   },

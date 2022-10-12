@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-all-meanings-list',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all-meanings-list.component.scss']
 })
 export class AllMeaningsListComponent implements OnInit {
+
+  @Input()
+  currentMeaningType:string = "NEWS";
 
   constructor() { }
 

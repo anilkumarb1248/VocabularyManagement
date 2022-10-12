@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MeaningType } from 'src/app/models/meaning-type';
 
 @Component({
   selector: 'app-all-meanings-view',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllMeaningsViewComponent implements OnInit {
 
-  constructor() { }
+  type : MeaningType =  MeaningType.NEWS;
+  public meantingTypeEnum = MeaningType;
+  currentMeaningType:string = "NEWS";
+
+  constructor() { 
+    this.currentMeaningType = this.meantingTypeEnum[this.type];
+
+   }
 
   ngOnInit(): void {
   }

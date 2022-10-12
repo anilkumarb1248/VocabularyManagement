@@ -1,7 +1,78 @@
-<div class="bg-main-header" style="height: 40px;position: fixed;width:99.5%;z-index: 100;">
-        <div class="float-left">
-            <nav class="nav nav-tabs">
-                <a class="nav-link text-dark" routerLinkActive="activebutton" routerLink="/all-meanings-list">News</a>
-             </nav>
-        </div>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-sm" style="height: 35px; background-color: #e3f2fd;">
+            <div class="btn-group">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" [routerLink]=""
+                            (click)="onMeaningTypeChange(meantingTypeEnum.NEWS)" style="cursor: pointer;">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="" href="#"
+                            (click)="onMeaningTypeChange(meantingTypeEnum.ARTICLE)"
+                            style="cursor: pointer;">Articles</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Stories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.SMALL_STORY)"
+                                    style="cursor: pointer;">Short
+                                    Stories</a></li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.MEDIUM_STORY)"
+                                    style="cursor: pointer;">Mid
+                                    Stories</a></li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.LARGE_STORY)"
+                                    style="cursor: pointer;">Large
+                                    Stories</a></li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.EXTRA_LARGE_STORY)"
+                                    style="cursor: pointer;">Extra
+                                    Large Stories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Youtube
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.YOUTUBE_STORY)"
+                                    style="cursor: pointer;">Stories</a></li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.YOUTUBE_SPEECH)"
+                                    style="cursor: pointer;">Speeches</a></li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.YOUTUBE_VIDEO)"
+                                    style="cursor: pointer;">Videos</a>
+                            </li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.YOUTUBE_SONG)"
+                                    style="cursor: pointer;">Songs</a>
+                            </li>
+                            <li><a class="dropdown-item" [routerLink]="" href="#"
+                                    (click)="onMeaningTypeChange(meantingTypeEnum.YOUTUBE_MOVIE)"
+                                    style="cursor: pointer;">Movies</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="" href="#"
+                            (click)="onMeaningTypeChange(meantingTypeEnum.PHOTO)" style="cursor: pointer;">Photos</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li> -->
+                </ul>
+            </div>
+    </nav>
+
+    <div>
+        <app-all-meanings-list [currentMeaningType]="currentMeaningType">Loading...</app-all-meanings-list>
     </div>
+</div>
