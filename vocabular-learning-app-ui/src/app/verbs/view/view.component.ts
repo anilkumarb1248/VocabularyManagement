@@ -19,7 +19,7 @@ export class ViewComponent implements OnInit {
 
   verbData: Verb | undefined;
 
-  individualResponse : IndividualResponse | undefined;
+  individualResponse : IndividualResponse<Verb> | undefined;
 
   @Input()
   verbWindowModal:any | undefined;

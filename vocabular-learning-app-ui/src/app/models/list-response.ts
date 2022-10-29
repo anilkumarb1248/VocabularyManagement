@@ -1,24 +1,24 @@
 import { Status } from "./status";
 
-export class ListResponse {
+export class ListResponse<T> {
 
-    public values: any[];
+    public values: T[];
     public status: Status;
     public msg:string;
     public source:string;
 
-    constructor(values:any[], msg:string, source:string, status: Status){
+    constructor(values:T[], msg:string, source:string, status: Status){
         this.values = values;
         this.msg = msg;
         this.source = source;
         this.status = status;
     }
 
-    public getValues(): any[] {
+    public getValues(): T[] {
         return this.values;
     }
 
-    public setValues(values: any[]): void {
+    public setValues(values: T[]): void {
         this.values = values;
     }
 

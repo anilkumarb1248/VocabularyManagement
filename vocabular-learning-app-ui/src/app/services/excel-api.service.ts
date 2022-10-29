@@ -41,7 +41,7 @@ export class ExcelAPIService {
     window.open(this.getExcelVerbsUrl() + "/sample");
   }
 
-  uploadVerbsExcelFile(uploadExcelData: FormData):Observable<IndividualResponse>{
-    return this.http.post<IndividualResponse>(this.excelURL + "verbs/upload", uploadExcelData);
+  uploadVerbsExcelFile(uploadExcelData: FormData):Observable<IndividualResponse<any>>{
+    return this.http.post<IndividualResponse<any>>(this.excelURL + "verbs/upload", uploadExcelData);
   }
 }

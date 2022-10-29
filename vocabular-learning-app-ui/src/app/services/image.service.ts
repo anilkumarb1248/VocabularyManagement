@@ -16,8 +16,8 @@ export class ImageService {
     this.imageAPIURL = appConstants.BASE_URL + "images/"
   }
 
-  uploadImage(imageFormData: FormData, verbId:any):Observable<IndividualResponse>{
-    return this.http.post<IndividualResponse>(this.imageAPIURL + verbId, imageFormData);
+  uploadImage(imageFormData: FormData, verbId:any):Observable<IndividualResponse<any>>{
+    return this.http.post<IndividualResponse<any>>(this.imageAPIURL + verbId, imageFormData);
   }
 
   getImage(verbId:any, imageName:string):Observable<Image>{
@@ -27,8 +27,8 @@ export class ImageService {
     return this.http.get<Image>(this.imageAPIURL, {params});
   }
 
-  deleteImage(verbId:any):Observable<IndividualResponse>{
-    return this.http.delete<IndividualResponse>(this.imageAPIURL + verbId);
+  deleteImage(verbId:any):Observable<IndividualResponse<Image>>{
+    return this.http.delete<IndividualResponse<Image>>(this.imageAPIURL + verbId);
   }
 
 }

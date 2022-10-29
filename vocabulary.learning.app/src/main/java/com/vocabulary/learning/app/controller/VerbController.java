@@ -137,7 +137,7 @@ public class VerbController {
             individualResponse.setStatus(Status.SUCCESS);
             return () -> new ResponseEntity<>(individualResponse, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error("Exception occurred while inserting the verbs: ", e);
+            LOGGER.error("Exception occurred while deleting the verb: ", e);
             individualResponse.setStatus(Status.ERROR);
             individualResponse.setMsg(e.getMessage());
             return () -> new ResponseEntity<>(individualResponse, HttpStatus.INTERNAL_SERVER_ERROR);

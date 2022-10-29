@@ -1,24 +1,24 @@
 import { Status } from "./status";
 
-export class IndividualResponse {
+export class IndividualResponse<T> {
 
-    public value: any;
+    public value: T;
     public status: Status;
     public msg:string;
     public source:string;
 
-    constructor(value:any, msg:string, source:string, status: Status){
+    constructor(value:T, msg:string, source:string, status: Status){
         this.value = value;
         this.msg = msg;
         this.source = source;
         this.status = status;
     }
 
-    public getValue(): any {
+    public getValue(): T {
         return this.value;
     }
 
-    public setValue(value: any): void {
+    public setValue(value: T): void {
         this.value = value;
     }
 

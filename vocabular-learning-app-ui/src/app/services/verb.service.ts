@@ -18,24 +18,24 @@ export class VerbService {
     this.verbsManagementURL = appConstants.BASE_URL + "VerbsLearning/"
   }
 
-  getVerbsList(verbSearchRequest: VerbSearchRequest): Observable<ListResponse> {
-    return this.http.post<ListResponse>(this.verbsManagementURL, verbSearchRequest);
+  getVerbsList(verbSearchRequest: VerbSearchRequest): Observable<ListResponse<Verb>> {
+    return this.http.post<ListResponse<Verb>>(this.verbsManagementURL, verbSearchRequest);
   }
 
-  getVerbDetails(verbId: number): Observable<IndividualResponse> {
-    return this.http.get<IndividualResponse>(this.verbsManagementURL + verbId);
+  getVerbDetails(verbId: number): Observable<IndividualResponse<Verb>> {
+    return this.http.get<IndividualResponse<Verb>>(this.verbsManagementURL + verbId);
   }
 
-  updateVerb(updatedVerb: Verb): Observable<IndividualResponse> {
-    return this.http.put<IndividualResponse>(this.verbsManagementURL, updatedVerb);
+  updateVerb(updatedVerb: Verb): Observable<IndividualResponse<Verb>> {
+    return this.http.put<IndividualResponse<Verb>>(this.verbsManagementURL, updatedVerb);
   }
 
-  saveVerbs(verbs:Verb[]): Observable<IndividualResponse> {
-    return this.http.post<IndividualResponse>(this.verbsManagementURL+"verbs", verbs);
+  saveVerbs(verbs:Verb[]): Observable<IndividualResponse<Verb>> {
+    return this.http.post<IndividualResponse<Verb>>(this.verbsManagementURL+"verbs", verbs);
   }
 
-  deleteVerb(verbId:number): Observable<IndividualResponse> {
-    return this.http.delete<IndividualResponse>(this.verbsManagementURL+"verb/"+verbId);
+  deleteVerb(verbId:number): Observable<IndividualResponse<Verb>> {
+    return this.http.delete<IndividualResponse<Verb>>(this.verbsManagementURL+"verb/"+verbId);
   }
 
 }

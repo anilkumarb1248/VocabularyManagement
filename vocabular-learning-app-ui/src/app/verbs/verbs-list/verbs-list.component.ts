@@ -18,7 +18,7 @@ import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-b
 })
 export class VerbsListComponent implements OnInit {
 
-  listResponse: ListResponse | undefined;
+  listResponse: ListResponse<Verb> | undefined;
   verbs: Verb[] = new Array();
   initialLoadedData: Verb[] = new Array();
   isLoaded: boolean = false;
@@ -46,6 +46,7 @@ export class VerbsListComponent implements OnInit {
     private speaker: Speaker,
     private excelAPIService: ExcelAPIService,
     private modalService: NgbModal
+    
   ) { 
 
     this.modalOptions = {

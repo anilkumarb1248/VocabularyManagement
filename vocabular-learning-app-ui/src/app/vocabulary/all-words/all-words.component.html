@@ -1,0 +1,130 @@
+<div>
+    <div *ngIf="!isLoaded">
+      <div class="progress" style="height: 20px; margin-top: 20px;">
+        <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoaded" style="margin-top: 10px;">
+        <table class="table table-sm table-bordered table-hover">
+          <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+    
+            <tr class="table-light">
+              <th colspan="10">
+                <div class="row" style="margin-top: 5px;">
+                  <div class="col" style="color:blue;width:20px">
+                    Total: {{totalRecords}}
+                  </div>
+                  <div class="col">
+                    <input type="text" [(ngModel)]="searchInput" class="form-control search-input-style"
+                      style="margin-left: -10px;" placeholder="Search">
+                  </div>
+                  <div class="col" style="margin-left: -28px;">
+                    <button class="btn btn-vsm" (click)="searchInLoadedData()" title="Search in Table">:::</button>
+                  </div>
+                  <div class="col" style="margin-left: -65px;">
+                    Or
+                  </div>
+                  <div class="col" style="margin-left: -60px;">
+                    <select [(ngModel)]="selectedLetter" class="custom-select" value="A" id="letterSelectionId"
+                      style="width: 80px;">
+                      <option *ngFor="let letter of allLetters; index as j">{{letter}}</option>
+                    </select>
+                  </div>
+                  <div class="col" style="margin-left: -15px;">
+                    And
+                  </div>
+                  <div class="col" style="margin-left: -35px;">
+                    <select [(ngModel)]="sortOrder" class="custom-select" id="orderSelectionId" style="width: 110px;">
+                      <option selected value="ASC">Ascending</option>
+                      <option value="DESC">Descending</option>
+                    </select>
+                  </div>
+                  <div class="col" style="margin-left: -10px;">
+                    <select [(ngModel)]="recordsSize" class="custom-select" id="recordsSizeSelectionId"
+                      style="width: 60px;">
+                      <option selected value="10">10</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="200">200</option>
+                      <option value="500">500</option>
+                      <option value="10000">1000</option>
+                      <option value="2000">2000</option>
+                      <option value="5000">5000</option>
+                    </select>
+                  </div>
+    
+                  <div class="col" style="text-align: center;">
+                    <button class="btn btn-vsm btn-warning" (click)="loadWordsList()" title="Search in Database">Search
+                      DB</button>
+                  </div>
+    
+                  <div class="col" style="text-align: center;">
+                    <button *ngIf="showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="speakAll()"
+                      title="Speak all the Verbs">Speak All</button>
+                    <button *ngIf="!showSpeakAllBtn" class="btn btn-vsm btn-danger" (click)="stopSpeaking()"
+                      title="Stop Speaking Verbs">Stop</button>
+                  </div>
+    
+                  <div class="col" style="text-align: center;">
+                    <button class="btn btn-vsm btn-success" (click)="addWordsList(wordModal)"
+                      title="Add List of New Words">Add Words</button>
+                  </div>
+
+                </div>
+              </th>
+            </tr>
+    
+            <tr>
+              <th>S.No</th>
+              <th>Word</th>
+              <th>Phonetics</th>
+              <th>Meanings</th>
+              <th>Synonyms</th>
+              <th>Antonyms</th>
+              <th>Notes</th>
+              <th>Created On</th>
+              <th>Updated On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+    
+          <tbody *ngFor="let word of words;index as i">
+            <tr [class]="geClass(i)">
+              <td>{{i+1}}</td>
+              <td>{{word.word}}
+                <span class="badge">
+                  <img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(word.word)">
+                </span>
+              </td>
+              <td>{{word.phonetics}}</td>
+              <td>{{word.wordMeanings}}</td>
+              <td>{{word.synonyms</td>
+              <td>{{word.notes}</td>
+              <td>{{word.createdTimeStamp}}</td>
+              <td>{{word.updatedTimeStamp}}</td>
+              <!-- <td style="width: 90px;text-align: center;">
+                <button class="btn btn-info btn-vvsm" (click)="viewCurrentVerb(verb, verbModal)"
+                  title="View Verb">View</button>
+                <button class="btn btn-danger btn-vvsm" (click)="deleteVerb(verb.verbId)" title="Delete Word"
+                  style="margin-left:5px;">Delete</button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>
+
+<ng-template #wordModal let-wordWindowModal>
+    <div class="modal-body">
+      <div *ngIf="isViewWordClicked">
+        Show Word details
+        <!-- <app-view [verbId]="currentViewVerbId" [verbWindowModal]="verbWindowModal"></app-view> -->
+      </div>
+  
+      <div *ngIf="isAddWordClicked">
+        <app-add-words [wordWindowModal]="wordWindowModal"></app-add-words>
+      </div>
+    </div>
+  </ng-template>

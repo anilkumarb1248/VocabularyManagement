@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row" style="height: 100%;width:100%">
+    <div class="col-1" style="background-color: lightblue;height: 580px;width:170px;overflow: auto;">
+      <!-- <img src="../assets/images/add.png" class="image-style" (click)="onAddHeaderBtnClick()"> -->
+
+      <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+        <button type="button" class="btn btn-info btn-sm" (click)="onLoadAllWordsBtnClick()">All Words</button>
+        <div *ngFor="let header of headers;index as i">
+          <button type="button" class="btn btn-link btn-sm"
+            (click)="onHeaderItemClicked(header)">{{header.vocabularyHeader}}</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="col">
+      <div *ngIf="loadAllWordsFlag">
+        <app-all-words></app-all-words>
+      </div>
+      <div *ngIf="!loadAllWordsFlag">
+        One of three columns
+      </div>
+
+    </div>
+  </div>
+
+</div>

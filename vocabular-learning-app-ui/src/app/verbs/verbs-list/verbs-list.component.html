@@ -155,37 +155,36 @@
       </tbody>
     </table>
   </div>
-
-  <ng-template #verbModal let-verbWindowModal>
-    <!-- <div class="modal-header">
+</div>
+<ng-template #verbModal let-verbWindowModal>
+  <!-- <div class="modal-header">
         <button type="button" class="close" aria-label="Close" (click)="verbWindowModal.dismiss('Cross click')">
           Close
         </button>
       </div> -->
-    <div class="modal-body">
-      <div *ngIf="isViewVerbClicked">
-        <app-view [verbId]="currentViewVerbId" [verbWindowModal]="verbWindowModal"></app-view>
-      </div>
-
-      <div *ngIf="isAddVerbClicked">
-
-        <app-add [verbWindowModal]="verbWindowModal"></app-add>
-      </div>
-
-      <div *ngIf="isImportFromExcelbtnClicked" style="height:100px;">
-        <div class="row" style="text-align: center; margin-top: 15px;">
-          <input type="file" id="importExcelId" (change)="onUploadVerbsExcelChangeEvent($event)">
-        </div>
-        <div class="row" style="text-align: right; margin-top: 25px;">
-          <div class="col">
-            <button class="btn btn-primary btn-vsm" (click)="uploadVerbsExcelFile(verbWindowModal)">Import</button>
-            <button class="btn btn-success btn-vsm" (click)="exportVerbsExcelSample()" style="margin-left: 5px;">Export
-              Sample</button>
-            <button class="btn btn-warning btn-vsm" (click)="closePopup(verbWindowModal)"
-              style="margin-left: 5px;">Close</button>
-          </div>
-        </div>
-      </div>
-
+  <div class="modal-body">
+    <div *ngIf="isViewVerbClicked">
+      <app-view [verbId]="currentViewVerbId" [verbWindowModal]="verbWindowModal"></app-view>
     </div>
-  </ng-template>
+
+    <div *ngIf="isAddVerbClicked">
+      <app-add [verbWindowModal]="verbWindowModal"></app-add>
+    </div>
+
+    <div *ngIf="isImportFromExcelbtnClicked" style="height:100px;">
+      <div class="row" style="text-align: center; margin-top: 15px;">
+        <input type="file" id="importExcelId" (change)="onUploadVerbsExcelChangeEvent($event)">
+      </div>
+      <div class="row" style="text-align: right; margin-top: 25px;">
+        <div class="col">
+          <button class="btn btn-primary btn-vsm" (click)="uploadVerbsExcelFile(verbWindowModal)">Import</button>
+          <button class="btn btn-success btn-vsm" (click)="exportVerbsExcelSample()" style="margin-left: 5px;">Export
+            Sample</button>
+          <button class="btn btn-warning btn-vsm" (click)="closePopup(verbWindowModal)"
+            style="margin-left: 5px;">Close</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

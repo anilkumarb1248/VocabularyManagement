@@ -20,7 +20,7 @@ import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.com
     AgGridSampleComponent,
     HeaderComponent,
     PageNotFoundComponent,
-    TextToSpeechComponent
+    TextToSpeechComponent,
   ],
   imports: [
     BrowserModule,
