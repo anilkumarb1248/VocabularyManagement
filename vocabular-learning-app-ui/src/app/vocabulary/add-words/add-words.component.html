@@ -16,21 +16,18 @@
                     <th>S.No</th>
                     <th>Word</th>
                     <th>Phonetics</th>
-                    <!-- <th>Meanings</th> -->
                     <th>Synonyms</th>
                     <th>Antonyms</th>
-                    <!-- <th>Notes</th> -->
+                    <th></th>
                 </tr>
             </thead>
-            <tbody *ngFor="let verb of verbs;index as i">
+            <tbody *ngFor="let word of words;index as i">
                 <tr [class]="geClass(i)">
                     <td>{{i+1}}</td>
-                    <td><input type="text" [(ngModel)]="verb.baseForm" class="form-control input-style"></td>
-                    <td><input type="text" [(ngModel)]="verb.pastTenseForm" class="form-control input-style"></td>
-                    <td><input type="text" [(ngModel)]="verb.pastParticipleForm" class="form-control input-style"></td>
-                    <td><input type="text" [(ngModel)]="verb.thirdPersonBaseForm" class="form-control input-style"></td>
-                    <td><input type="text" [(ngModel)]="verb.progressiveForm" class="form-control input-style"></td>
-                    <td><input type="text" [(ngModel)]="verb.phonetics" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="word.word" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="word.phonetics" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="word.synonyms" class="form-control input-style"></td>
+                    <td><input type="text" [(ngModel)]="word.antonyms" class="form-control input-style"></td>
                     <td>
                         <button class="btn btn-info btn-vsm" data-bs-toggle="collapse"
                             [attr.data-bs-target]="'#span-'+i" aria-expanded="true"
@@ -40,18 +37,31 @@
                 <tr class="collapse" id="span-{{i}}">
                     <td colspan="8">
                         <div class="card card-body">
-                            <div class="row" style="margin-top: -20px;">
-                                <div class="col-md-6">
-                                    <label for="meaningsTextAreaId"><b>Meanings:</b></label>
-                                    <textarea class="form-control" id="meaningsTextAreaId1" name="text"
-                                    [(ngModel)]="verb.meanings" style="width: 500px;height:100px;"></textarea>
+                            <div class="row" style="margin-top: -25px;">
+                                <div class="col-12">
+                                    <label for="wordMeaningsTextAreaId1"><b>Meaning 1:</b></label>
+                                    <textarea class="form-control" id="wordMeaningsTextAreaId1" name="text"
+                                    [(ngModel)]="word.wordMeanings[0]" style="width: 100%;height:100px;"></textarea>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="examplesTextAreaId"><b>Examples:</b></label>
-                                    <textarea class="form-control" id="examplesTextAreaId1" name="text"
-                                    [(ngModel)]="verb.examples" style="width: 500px;height:100px;"></textarea>
+        
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="wordMeaningsTextAreaId2"><b>Meaning 2:</b></label>
+                                    <textarea class="form-control" id="wordMeaningsTextAreaId2" name="text"
+                                    [(ngModel)]="word.wordMeanings[1]" style="width: 100%;height:100px;"></textarea>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="notesTextAreaId"><b>Notes:</b></label>
+                                    <textarea class="form-control" id="notesTextAreaId" name="text"
+                                    [(ngModel)]="word.notes" style="width: 100%;height:100px;"></textarea>
+                                </div>
+                            </div>
+
                         </div>
                     </td>
                 </tr>

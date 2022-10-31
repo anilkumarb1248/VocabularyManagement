@@ -1,15 +1,7 @@
 <div>
-    <div *ngIf="!isLoaded">
-      <div class="progress" style="height: 20px; margin-top: 20px;">
-        <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
-          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
-      </div>
-    </div>
-
-    <div *ngIf="isLoaded" style="margin-top: 10px;">
+    <div style="margin-top: 10px;">
         <table class="table table-sm table-bordered table-hover">
           <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
-    
             <tr class="table-light">
               <th colspan="10">
                 <div class="row" style="margin-top: 5px;">
@@ -89,32 +81,62 @@
               <th>Actions</th>
             </tr>
           </thead>
-    
-          <tbody *ngFor="let word of words;index as i">
-            <tr [class]="geClass(i)">
-              <td>{{i+1}}</td>
-              <td>{{word.word}}
-                <span class="badge">
-                  <img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(word.word)">
-                </span>
-              </td>
-              <td>{{word.phonetics}}</td>
-              <td>{{word.wordMeanings}}</td>
-              <td>{{word.synonyms</td>
-              <td>{{word.notes}</td>
-              <td>{{word.createdTimeStamp}}</td>
-              <td>{{word.updatedTimeStamp}}</td>
-              <!-- <td style="width: 90px;text-align: center;">
-                <button class="btn btn-info btn-vvsm" (click)="viewCurrentVerb(verb, verbModal)"
-                  title="View Verb">View</button>
-                <button class="btn btn-danger btn-vvsm" (click)="deleteVerb(verb.verbId)" title="Delete Word"
-                  style="margin-left:5px;">Delete</button>
-              </td> -->
+
+          <ng-container *ngIf="!isLoaded">
+            <tbody>
+              <tr class="table-light" style="text-align:center;">
+                <td colspan="10" style="color:red;"> Loading....</td>
             </tr>
-          </tbody>
+            </tbody>
+        </ng-container>
+
+          <!-- <div *ngIf="!isLoaded">
+            <div class="progress" style="height: 20px; margin-top: 20px;">
+              <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+            </div>
+          </div> -->
+
+          <ng-container *ngIf="isLoaded">
+            <div *ngIf="words.length == 0; then noRecordsTemplate else someRecordsTempleate"></div>
+          </ng-container>
         </table>
       </div>
 </div>
+
+<ng-template #noRecordsTemplate>
+  <tbody>
+    <tr class="table-light" style="text-align:center;">
+      <td colspan="10" style="color:red;"> No records found</td>
+  </tr>
+  </tbody>
+</ng-template>
+
+<ng-template #someRecordsTempleate>
+  <tbody *ngFor="let word of words;index as i">
+    <tr [class]="geClass(i)">
+      <td>{{i+1}}</td>
+      <td>{{word.word}}
+        <span class="badge">
+          <img src="../assets/images/speak.png" class="image-style" (click)="textToSpeak(word.word)">
+        </span>
+      </td>
+      <td>{{word.phonetics}}</td>
+      <td>{{word.wordMeanings}}</td>
+      <td>{{word.synonyms}}</td>
+      <td>{{word.antonyms}}</td>
+      <td>{{word.notes}}</td>
+      <td>{{word.createdTimeStamp | date:'shortDate'}}</td>
+      <td>{{word.updatedTimeStamp | date:'shortDate'}}</td>
+      <td style="width: 90px;text-align: center;">
+        <button class="btn btn-info btn-vvsm" (click)="viewWord(word, wordModal)"
+          title="View Verb">View</button>
+        <button class="btn btn-danger btn-vvsm" (click)="deleteWord(word.wordId)" title="Delete Word"
+          style="margin-left:5px;">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</ng-template>
 
 <ng-template #wordModal let-wordWindowModal>
     <div class="modal-body">
@@ -124,7 +146,7 @@
       </div>
   
       <div *ngIf="isAddWordClicked">
-        <app-add-words [wordWindowModal]="wordWindowModal"></app-add-words>
+        <app-add-words [wordWindowModal]="wordWindowModal" (wordGridListRefreshEvent)="loadWordsList()"></app-add-words>
       </div>
     </div>
   </ng-template>

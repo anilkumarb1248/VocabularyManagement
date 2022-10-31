@@ -124,4 +124,27 @@ export class AllWordsComponent implements OnInit {
 
   }
 
+  currentViewWord:Word | undefined;
+
+  viewWord(word: Word, wordModal: any){
+    this.isAddWordClicked = false;
+    this.isViewWordClicked = true;
+    
+    this.currentViewWord = word;
+    this.modalService.open(wordModal, {backdrop:'static',size:'xl',fullscreen: 'xl'})
+
+  }
+
+  deleteWord(wordId: any){
+    this.wordService.deleteWord(wordId, "").subscribe(
+      (data) => {
+        console.log(data.getStatus);
+        this.loadWordsList();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 }

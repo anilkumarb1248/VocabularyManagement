@@ -11,6 +11,7 @@ export class VocabularyHomeComponent implements OnInit {
 
   headers: VocabularyHeader[] = new Array();
   loadAllWordsFlag:boolean = true;
+  currentSelectedHeader: VocabularyHeader = new VocabularyHeader();
 
   constructor(
     private vocabularHeaderService: VocabularHeaderService
@@ -47,8 +48,10 @@ export class VocabularyHomeComponent implements OnInit {
      this.loadAllWordsFlag = true;
   }
 
+  
   onHeaderItemClicked(header:VocabularyHeader):void{
     this.loadAllWordsFlag = false;
+    this.currentSelectedHeader = header;
 
   }
 

@@ -35,6 +35,10 @@ export class WordService {
     return this.http.post<IndividualResponse<Word>>(this.wordsURL, word);
   }
 
+  insertWordsList(words: Word[]) : Observable<IndividualResponse<Word>> {
+    return this.http.post<IndividualResponse<Word>>(this.wordsURL+"list-insert", words);
+  }
+
   updateWord(updatedWord: Word): Observable<IndividualResponse<Word>> {
     return this.http.put<IndividualResponse<Word>>(this.wordsURL, updatedWord);
   }

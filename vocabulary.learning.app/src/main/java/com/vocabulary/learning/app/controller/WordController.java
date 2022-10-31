@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -101,6 +100,22 @@ public class WordController {
         }
     }
 
+    @PostMapping("/list-insert")
+    public Callable<ResponseEntity<IndividualResponse<Word>>> insertWordsList(@RequestBody @Valid List<Word> wordList) {
+
+        IndividualResponse<Word> individualResponse = new IndividualResponse<>();
+        try {
+            wordService.insertWordsList(wordList);
+            individualResponse.setStatus(Status.SUCCESS);
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error("Exception occurred while inserting the words list ", e);
+            individualResponse.setStatus(Status.ERROR);
+            individualResponse.setMsg(e.getMessage());
+            return () -> new ResponseEntity<>(individualResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping
     public Callable<ResponseEntity<IndividualResponse<Word>>> updateWord(@RequestBody @Valid Word word) {
 
@@ -120,7 +135,7 @@ public class WordController {
     @DeleteMapping
     public Callable<ResponseEntity<IndividualResponse<Word>>> deleteWord(@RequestParam("wordId") Integer wordId, @RequestParam("searchWord") String searchWord) {
         IndividualResponse<Word> individualResponse = new IndividualResponse<>();
-        if (StringUtils.isBlank(searchWord) || wordId == null) {
+        if (StringUtils.isBlank(searchWord) && wordId == null) {
             individualResponse.setStatus(Status.BAD_REQUEST);
             individualResponse.setMsg("Word or word Id is required");
             return () -> new ResponseEntity<>(individualResponse, HttpStatus.BAD_REQUEST);

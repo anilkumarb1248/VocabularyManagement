@@ -1,7 +1,11 @@
 package com.vocabulary.learning.app.service;
 
+import com.vocabulary.learning.app.entity.VerbEntity;
 import com.vocabulary.learning.app.entity.WordEntity;
 import com.vocabulary.learning.app.entity.WordMeaningEntity;
+import com.vocabulary.learning.app.exception.DuplicateVerbException;
+import com.vocabulary.learning.app.exception.DuplicateWordException;
+import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.model.Word;
 import com.vocabulary.learning.app.model.WordSearchRequest;
 import com.vocabulary.learning.app.repository.WordRepository;
@@ -90,14 +94,35 @@ public class WordService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void insertWord(Word word) {
-        WordEntity wordEntity = convertToEntity(word);
-        wordRepository.save(wordEntity);
+        if (!isDuplicateWord(word, true)) {
+            WordEntity wordEntity = convertToEntity(word);
+            wordRepository.save(wordEntity);
+        } else {
+            throw new DuplicateWordException("Duplicate word with : " + word.getWord());
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void insertWordsList(List<Word> wordList) {
+        List<WordEntity> wordEntities = new ArrayList<>();
+        wordList.stream().forEach(word -> {
+            if (!isDuplicateWord(word, true)) {
+                wordEntities.add(convertToEntity(word));
+            }
+        });
+        if (!CollectionUtils.isEmpty(wordEntities)) {
+            wordRepository.saveAll(wordEntities);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateWord(Word word) {
-        WordEntity wordEntity = convertToEntity(word);
-        wordRepository.save(wordEntity);
+        if (!isDuplicateWord(word, false)) {
+            WordEntity wordEntity = convertToEntity(word);
+            wordRepository.save(wordEntity);
+        } else {
+            throw new DuplicateWordException("Duplicate word with : " + word.getWord());
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -143,4 +168,22 @@ public class WordService {
 
         return wordEntity;
     }
+
+    private boolean isDuplicateWord(Word word, boolean newEntryFlag) {
+        Optional<WordEntity> optional = wordRepository.findByWord(word.getWord());
+        if (optional.isEmpty()) {
+            return false;
+        } else {
+            if (newEntryFlag) {
+                return true;
+            } else {
+                if (word.getWordId() == optional.get().getWordId()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
 }

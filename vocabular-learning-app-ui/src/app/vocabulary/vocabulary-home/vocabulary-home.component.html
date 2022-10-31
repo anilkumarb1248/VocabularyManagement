@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="width: 100%;">
   <div class="row" style="height: 100%;width:100%">
     <div class="col-1" style="background-color: lightblue;height: 580px;width:170px;overflow: auto;">
       <!-- <img src="../assets/images/add.png" class="image-style" (click)="onAddHeaderBtnClick()"> -->
@@ -13,13 +13,15 @@
       </div>
     </div>
     <div class="col">
-      <div *ngIf="loadAllWordsFlag">
+      <ng-container *ngIf="loadAllWordsFlag">
         <app-all-words></app-all-words>
-      </div>
-      <div *ngIf="!loadAllWordsFlag">
-        One of three columns
-      </div>
+      </ng-container>
 
+      <ng-container *ngIf="!loadAllWordsFlag">
+        <div>
+{{currentSelectedHeader.vocabularyHeader}}
+        </div>
+      </ng-container>
     </div>
   </div>
 
