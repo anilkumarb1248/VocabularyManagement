@@ -1,11 +1,7 @@
 package com.vocabulary.learning.app.service;
 
-import com.vocabulary.learning.app.entity.VerbEntity;
 import com.vocabulary.learning.app.entity.WordEntity;
-import com.vocabulary.learning.app.entity.WordMeaningEntity;
-import com.vocabulary.learning.app.exception.DuplicateVerbException;
 import com.vocabulary.learning.app.exception.DuplicateWordException;
-import com.vocabulary.learning.app.model.Verb;
 import com.vocabulary.learning.app.model.Word;
 import com.vocabulary.learning.app.model.WordSearchRequest;
 import com.vocabulary.learning.app.repository.WordRepository;
@@ -22,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class WordService {
@@ -142,11 +137,9 @@ public class WordService {
         word.setSynonyms(wordEntity.getSynonyms());
         word.setAntonyms(wordEntity.getAntonyms());
         word.setNotes(wordEntity.getNotes());
+        word.setMeaning(wordEntity.getMeaning());
         word.setCreatedTimeStamp(wordEntity.getCreatedTimeStamp());
         word.setUpdatedTimeStamp(wordEntity.getUpdatedTimeStamp());
-
-        List<String> wordMeanings = wordEntity.getWordMeanings().stream().map(WordMeaningEntity::getWordMeaning).collect(Collectors.toList());
-        word.setWordMeanings(wordMeanings);
         return word;
     }
 
@@ -158,14 +151,7 @@ public class WordService {
         wordEntity.setSynonyms(word.getSynonyms());
         wordEntity.setAntonyms(word.getAntonyms());
         wordEntity.setNotes(word.getNotes());
-
-        List<WordMeaningEntity> wordMeaningEntities = word.getWordMeanings().stream().map(meaning->{
-            WordMeaningEntity wordMeaningEntity = new WordMeaningEntity();
-            wordMeaningEntity.setWordMeaning(meaning);
-            return wordMeaningEntity;
-        }).collect(Collectors.toList());
-        wordEntity.setWordMeanings(wordMeaningEntities);
-
+        wordEntity.setMeaning(word.getMeaning());
         return wordEntity;
     }
 

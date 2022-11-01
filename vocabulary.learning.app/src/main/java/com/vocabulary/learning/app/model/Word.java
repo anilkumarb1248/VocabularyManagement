@@ -23,7 +23,7 @@ public class Word {
     private String synonyms;
     private String antonyms;
     private String notes;
-    private List<String> wordMeanings;
+    private String meaning;
     private LocalDateTime createdTimeStamp;
     private LocalDateTime updatedTimeStamp;
 

@@ -7,6 +7,7 @@ import { VocabularyViewComponent } from './vocabulary-view/vocabulary-view.compo
 import { AllWordsComponent } from './all-words/all-words.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddWordsComponent } from './add-words/add-words.component';
+import { ViewWordComponent } from './view-word/view-word.component';
 
 
 
@@ -16,7 +17,8 @@ import { AddWordsComponent } from './add-words/add-words.component';
     VocabularyListComponent,
     VocabularyViewComponent,
     AllWordsComponent,
-    AddWordsComponent
+    AddWordsComponent,
+    ViewWordComponent
   ],
   imports: [
     CommonModule,

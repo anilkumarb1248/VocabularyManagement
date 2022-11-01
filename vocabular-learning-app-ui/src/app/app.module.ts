@@ -12,6 +12,7 @@ import { AgGridSampleComponent } from './ag-grid/ag-grid-sample/ag-grid-sample.c
 import { HeaderComponent } from './commons/header/header.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.component';
+// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -29,7 +30,8 @@ import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.com
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    // CKEditorModule
     // NgbModule
   ],
   providers: [],

@@ -1,0 +1,46 @@
+<div class="container-fluid" style="height:100%;border: 2px solid black;">
+    <div>
+        <form [formGroup]="currentWordForm" (ngSubmit)="updateWord()">
+            <div class="row">
+                <div class="col" style="text-align: right;">
+                    <button type="submit" class="btn btn-success btn-vsm">Save</button>
+                    <button type="button" class="btn btn-warning btn-vsm" (click)="closePopup()"
+                        style="margin-left:15px;">Close</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Word</label>
+                <input formControlName="word" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Phonetics</label>
+                <input formControlName="phonetics" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Synonyms</label>
+                <input formControlName="synonyms" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Antonyms</label>
+                <input formControlName="antonyms" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Meanings</label>
+                <textarea formControlName="meaning" type="text" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea formControlName="notes" type="text" class="form-control"></textarea>
+            </div>
+        </form>
+
+
+    </div>
+
+</div>

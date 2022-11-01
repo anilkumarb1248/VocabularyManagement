@@ -50,10 +50,8 @@ public class WordEntity {
     @Column(name="NOTES")
     private String notes;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="WORD_ID", nullable = false)
-    private List<WordMeaningEntity> wordMeanings;
+    @Column(name="MEANING")
+    private String meaning;
 
     @Column(name="CREATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false, updatable = false)
     private LocalDateTime createdTimeStamp;

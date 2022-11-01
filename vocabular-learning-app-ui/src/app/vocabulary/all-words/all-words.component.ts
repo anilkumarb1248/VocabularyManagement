@@ -34,6 +34,8 @@ export class AllWordsComponent implements OnInit {
   isViewWordClicked:boolean = false;
   isAddWordClicked:boolean = false;
 
+  currentViewWord:Word = new Word();
+
   constructor(    
     private wordService: WordService,
     private speaker: Speaker,
@@ -124,14 +126,15 @@ export class AllWordsComponent implements OnInit {
 
   }
 
-  currentViewWord:Word | undefined;
-
   viewWord(word: Word, wordModal: any){
+    this.currentViewWord = word;
+    console.log("****************");
+    console.log(this.currentViewWord);
+
     this.isAddWordClicked = false;
     this.isViewWordClicked = true;
     
-    this.currentViewWord = word;
-    this.modalService.open(wordModal, {backdrop:'static',size:'xl',fullscreen: 'xl'})
+    this.modalService.open(wordModal, {backdrop:'static',size:'xxl',fullscreen: 'xxl'})
 
   }
 

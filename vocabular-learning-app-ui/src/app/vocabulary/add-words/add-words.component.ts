@@ -16,9 +16,6 @@ export class AddWordsComponent implements OnInit {
 
   @Output() wordGridListRefreshEvent = new EventEmitter();
 
-  
-
-
   constructor(private wordService: WordService) {
     this.adEmptyRecords(5);
   }
@@ -28,11 +25,7 @@ export class AddWordsComponent implements OnInit {
 
   adEmptyRecords(count:number) {
     for (let i = 1; i <= count; i++) {
-      let emptyWord : Word = new Word();
-      emptyWord.wordMeanings[0] = i + "";
-      emptyWord.wordMeanings[1] = i + i + "";
-      this.words.push(emptyWord);
-
+      this.words.push(new Word());
     }
   }
 
@@ -51,17 +44,20 @@ export class AddWordsComponent implements OnInit {
         newWords.push(word);
       }
     }
-    this.wordService.insertWordsList(newWords).subscribe(
-      (data) => {
-        console.log(data.getStatus);
-        this.closePopup();
-        this.wordGridListRefreshEvent.emit();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
+    if(newWords.length > 0){
+      this.wordService.insertWordsList(newWords).subscribe(
+        (data) => {
+          console.log(data.getStatus);
+          this.closePopup();
+          this.wordGridListRefreshEvent.emit();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }else{
+      console.log("Please add some words");
+    }
   }
 
   closePopup() {

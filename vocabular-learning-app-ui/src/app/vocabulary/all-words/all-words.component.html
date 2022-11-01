@@ -122,7 +122,7 @@
         </span>
       </td>
       <td>{{word.phonetics}}</td>
-      <td>{{word.wordMeanings}}</td>
+      <td>{{word.meaning}}</td>
       <td>{{word.synonyms}}</td>
       <td>{{word.antonyms}}</td>
       <td>{{word.notes}}</td>
@@ -141,8 +141,7 @@
 <ng-template #wordModal let-wordWindowModal>
     <div class="modal-body">
       <div *ngIf="isViewWordClicked">
-        Show Word details
-        <!-- <app-view [verbId]="currentViewVerbId" [verbWindowModal]="verbWindowModal"></app-view> -->
+        <app-view-word [currentWord]="currentViewWord" [wordWindowModal]="wordWindowModal" (wordGridListRefreshEvent)="loadWordsList()"></app-view-word>
       </div>
   
       <div *ngIf="isAddWordClicked">
