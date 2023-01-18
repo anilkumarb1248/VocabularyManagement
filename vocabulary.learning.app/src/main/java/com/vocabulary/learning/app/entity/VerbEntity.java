@@ -47,11 +47,11 @@ public class VerbEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="VERB_ID", nullable = false)
-    private List<MeaningEntity> meanings;
+    private List<VerbMeaningEntity> meanings;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="VERB_ID", nullable = false)
-    private List<ExampleEntity> examples;
+    private List<VerbExampleEntity> examples;
 
     @Column(name="LEARNING_STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -119,19 +119,19 @@ public class VerbEntity implements Serializable {
         this.phonetics = phonetics;
     }
 
-    public List<MeaningEntity> getMeanings() {
+    public List<VerbMeaningEntity> getMeanings() {
         return meanings;
     }
 
-    public void setMeanings(List<MeaningEntity> meanings) {
+    public void setMeanings(List<VerbMeaningEntity> meanings) {
         this.meanings = meanings;
     }
 
-    public List<ExampleEntity> getExamples() {
+    public List<VerbExampleEntity> getExamples() {
         return examples;
     }
 
-    public void setExamples(List<ExampleEntity> examples) {
+    public void setExamples(List<VerbExampleEntity> examples) {
         this.examples = examples;
     }
 

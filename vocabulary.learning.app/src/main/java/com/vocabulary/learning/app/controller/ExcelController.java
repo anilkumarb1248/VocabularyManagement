@@ -33,7 +33,13 @@ import java.util.concurrent.Callable;
 
 @RestController
 @RequestMapping("/excel")
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.0.143:4200"})
+@CrossOrigin(origins = {
+        "http://localhost:4200",
+        "http://127.0.0.1:4200",
+        "http://192.168.0.143:4200",
+        "http://192.168.0.1:4200",
+        "http://desktop-ghd0jav:4200"
+})
 public class ExcelController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelController.class);
     private final ExcelService excelService;
