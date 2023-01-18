@@ -8,6 +8,7 @@ import { AllWordsComponent } from './all-words/all-words.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddWordsComponent } from './add-words/add-words.component';
 import { ViewWordComponent } from './view-word/view-word.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -24,7 +25,8 @@ import { ViewWordComponent } from './view-word/view-word.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    VocabularyRoutingModule
+    VocabularyRoutingModule,
+    CKEditorModule
   ]
 })
 export class VocabularyModule { }

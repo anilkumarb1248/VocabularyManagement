@@ -7,18 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -47,10 +43,12 @@ public class WordEntity {
     @Column(name="ANTONYMS")
     private String antonyms;
 
-    @Column(name="NOTES")
+    @Column(name="NOTES", columnDefinition="CLOB")
+    @Lob
     private String notes;
 
-    @Column(name="MEANING")
+    @Column(name="MEANING", columnDefinition="CLOB")
+    @Lob
     private String meaning;
 
     @Column(name="CREATE_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable = false, updatable = false)

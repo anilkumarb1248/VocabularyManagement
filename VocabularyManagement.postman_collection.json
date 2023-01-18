@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "c0892f4a-11a8-4939-a21f-e36b0234c254",
+		"name": "VocabularyManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "VocabularyHeaderController",
+			"item": [
+				{
+					"name": "addVocabularyHeadersList",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"header\": \"A\",\r\n        \"headerType\": \"TEXT\"\r\n    },\r\n    {\r\n        \"header\": \"B\",\r\n        \"headerType\": \"VIDEO\"\r\n    },\r\n    {\r\n        \"header\": \"C\",\r\n        \"headerType\": \"AUDIO\"\r\n    },\r\n    {\r\n        \"header\": \"D\",\r\n        \"headerType\": \"LINK\"\r\n    },\r\n    {\r\n        \"header\": \"D\",\r\n        \"headerType\": \"IMAGE\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addVocabularyHeader",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"header\": \"ABC\",\r\n    \"headerType\": \"TEXT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addHeaderWithParent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"header\": \"123\",\r\n    \"headerType\": \"TEXT\",\r\n    \"parentId\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Parent Headers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Header Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders/header/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders",
+								"header",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Headers by parent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders/parent/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders",
+								"parent",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Header",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"headerId\":\"1\",\r\n    \"header\": \"ABC_Update\",\r\n    \"headerType\": \"TEXT\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Header",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:2023/VocabularyLearning/VocabularyHeaders/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2023",
+							"path": [
+								"VocabularyLearning",
+								"VocabularyHeaders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

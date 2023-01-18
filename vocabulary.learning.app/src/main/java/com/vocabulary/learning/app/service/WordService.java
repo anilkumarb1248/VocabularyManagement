@@ -164,9 +164,9 @@ public class WordService {
                 return true;
             } else {
                 if (word.getWordId() == optional.get().getWordId()) {
-                    return true;
-                } else {
                     return false;
+                } else {
+                    return true;
                 }
             }
         }

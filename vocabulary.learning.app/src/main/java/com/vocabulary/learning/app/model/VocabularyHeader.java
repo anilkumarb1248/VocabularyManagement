@@ -1,42 +1,47 @@
 package com.vocabulary.learning.app.model;
 
-import com.vocabulary.learning.app.enums.VocabularyType;
+import com.vocabulary.learning.app.enums.HeaderType;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class VocabularyHeader {
-    private Integer vocabularyHeaderId;
-    private String vocabularyHeader;
-    private Integer vocabularyHeaderParent;
-    private VocabularyType vocabularyType;
+    private Integer headerId;
+    @NotBlank(message = "Header Name should not be blank")
+    private String header;
+    private Integer parentId;
+    @NotNull(message = "Header type should not be null")
+    private HeaderType headerType;
 
-    public Integer getVocabularyHeaderId() {
-        return vocabularyHeaderId;
+    public Integer getHeaderId() {
+        return headerId;
     }
 
-    public void setVocabularyHeaderId(Integer vocabularyHeaderId) {
-        this.vocabularyHeaderId = vocabularyHeaderId;
+    public void setHeaderId(Integer headerId) {
+        this.headerId = headerId;
     }
 
-    public String getVocabularyHeader() {
-        return vocabularyHeader;
+    public String getHeader() {
+        return header;
     }
 
-    public void setVocabularyHeader(String vocabularyHeader) {
-        this.vocabularyHeader = vocabularyHeader;
+    public void setHeader(String header) {
+        this.header = header;
     }
 
-    public Integer getVocabularyHeaderParent() {
-        return vocabularyHeaderParent;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setVocabularyHeaderParent(Integer vocabularyHeaderParent) {
-        this.vocabularyHeaderParent = vocabularyHeaderParent;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public VocabularyType getVocabularyType() {
-        return vocabularyType;
+    public HeaderType getHeaderType() {
+        return headerType;
     }
 
-    public void setVocabularyType(VocabularyType vocabularyType) {
-        this.vocabularyType = vocabularyType;
+    public void setHeaderType(HeaderType headerType) {
+        this.headerType = headerType;
     }
 }

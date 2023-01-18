@@ -1,6 +1,6 @@
 package com.vocabulary.learning.app.entity;
 
-import com.vocabulary.learning.app.enums.VocabularyType;
+import com.vocabulary.learning.app.enums.HeaderType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,48 +17,48 @@ public class VocabularyHeaderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="VOCABULARY_HEADER_ID", unique = true)
-    private Integer vocabularyHeaderId;
+    @Column(name="HEADER_ID", unique = true, nullable = false)
+    private Integer headerId;
 
-    @Column(name="VOCABULARY_HEADER")
-    private String vocabularyHeader;
+    @Column(name="HEADER",  nullable = false)
+    private String header;
 
-    @Column(name="VOCABULARY_HEADER_PARENT")
-    private Integer vocabularyHeaderParent;
+    @Column(name="PARENT_HEADER")
+    private Integer parentId;
 
-    @Column(name="VOCABULARY_TYPE", nullable = false)
+    @Column(name="HEADER_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)
-    private VocabularyType vocabularyType;
+    private HeaderType headerType;
 
-    public Integer getVocabularyHeaderId() {
-        return vocabularyHeaderId;
+    public Integer getHeaderId() {
+        return headerId;
     }
 
-    public void setVocabularyHeaderId(Integer vocabularyHeaderId) {
-        this.vocabularyHeaderId = vocabularyHeaderId;
+    public void setHeaderId(Integer headerId) {
+        this.headerId = headerId;
     }
 
-    public String getVocabularyHeader() {
-        return vocabularyHeader;
+    public String getHeader() {
+        return header;
     }
 
-    public void setVocabularyHeader(String vocabularyHeader) {
-        this.vocabularyHeader = vocabularyHeader;
+    public void setHeader(String header) {
+        this.header = header;
     }
 
-    public Integer getVocabularyHeaderParent() {
-        return vocabularyHeaderParent;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setVocabularyHeaderParent(Integer vocabularyHeaderParent) {
-        this.vocabularyHeaderParent = vocabularyHeaderParent;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public VocabularyType getVocabularyType() {
-        return vocabularyType;
+    public HeaderType getHeaderType() {
+        return headerType;
     }
 
-    public void setVocabularyType(VocabularyType vocabularyType) {
-        this.vocabularyType = vocabularyType;
+    public void setHeaderType(HeaderType headerType) {
+        this.headerType = headerType;
     }
 }

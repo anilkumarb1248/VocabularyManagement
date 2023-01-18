@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+
+// import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+
+
 import { Word } from 'src/app/models/word';
 import { WordService } from 'src/app/services/word.service';
 
@@ -21,6 +26,10 @@ export class ViewWordComponent implements OnInit {
 
   currentWordForm:FormGroup = new FormGroup({});
 
+  // public Editor = ClassicEditor;
+  
+  public Editor = DecoupledEditor;
+
   constructor(private wordService: WordService, private fromBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -35,8 +44,15 @@ export class ViewWordComponent implements OnInit {
       });
   }
 
+  public onCKEditorReady( editor:any ) {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+        editor.ui.view.toolbar.element,
+        editor.ui.getEditableElement()
+    );
+}
+
   updateWord() {
-    this.wordService.insertWord(this.currentWordForm.value).subscribe(
+    this.wordService.updateWord(this.currentWordForm.value).subscribe(
       (data) => {
         console.log(data.getStatus);
         this.closePopup();

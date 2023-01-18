@@ -1,0 +1,6 @@
+2022-11-03 23:51:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "MEANING CHARACTER VARYING(255)": "'<figure class=""table""><table><tbody><tr><td><strong>What do you want to write</... (266)"; SQL statement:
+update word set antonyms=?, meaning=?, notes=?, phonetics=?, synonyms=?, word=? where word_id=? [22001-214]
+2022-11-03 23:56:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "MEANING CHARACTER VARYING(255)": "SPACE(266 /* table: -2 id: 1 */) (266)"; SQL statement:
+update word set antonyms=?, meaning=?, notes=?, phonetics=?, synonyms=?, word=? where word_id=? [22001-214]
