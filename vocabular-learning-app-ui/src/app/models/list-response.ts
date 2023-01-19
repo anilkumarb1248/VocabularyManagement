@@ -45,6 +45,5 @@ export class ListResponse<T> {
     public setSource(source: string): void {
         this.source = source;
     }
-
     
 }

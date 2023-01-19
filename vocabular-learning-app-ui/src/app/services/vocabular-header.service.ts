@@ -17,19 +17,31 @@ export class VocabularHeaderService {
     this.vocabularyHeaderURL = appConstants.BASE_URL + "VocabularyHeaders/"
   }
 
-  getAllVocabularyHeaders(): Observable<ListResponse<VocabularyHeader>> {
+  getAllParentVocabularyHeaders(): Observable<ListResponse<VocabularyHeader>> {
     return this.http.get<ListResponse<VocabularyHeader>>(this.vocabularyHeaderURL);
   }
 
+  getAllChildHeaders(headerId: number): Observable<ListResponse<VocabularyHeader>> {
+    return this.http.get<ListResponse<VocabularyHeader>>(this.vocabularyHeaderURL + "parent/" + headerId);
+  }
+
   getVocabularyHeaderDetails(headerId: number): Observable<IndividualResponse<VocabularyHeader>> {
-    return this.http.get<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL + headerId);
+    return this.http.get<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL + "header/" + headerId);
   }
 
   addVocabularyHeader(vocabularyHeader: VocabularyHeader): Observable<IndividualResponse<VocabularyHeader>> {
     return this.http.post<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL, vocabularyHeader);
   }
 
-  deleteVocabularyHeader(headerId:number): Observable<IndividualResponse<VocabularyHeader>> {
+  addVocabularyHeadersList(vocabularyHeaderArray: VocabularyHeader[]): Observable<IndividualResponse<VocabularyHeader>> {
+    return this.http.post<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL + "list", vocabularyHeaderArray);
+  }
+
+  updateVocabularyHeader(vocabularyHeader: VocabularyHeader): Observable<IndividualResponse<VocabularyHeader>> {
+    return this.http.put<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL, vocabularyHeader);
+  }
+
+  deleteVocabularyHeader(headerId: number): Observable<IndividualResponse<VocabularyHeader>> {
     return this.http.delete<IndividualResponse<VocabularyHeader>>(this.vocabularyHeaderURL + headerId);
   }
 

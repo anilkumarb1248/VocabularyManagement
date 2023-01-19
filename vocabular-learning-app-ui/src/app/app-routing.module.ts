@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AgGridSampleComponent } from './ag-grid/ag-grid-sample/ag-grid-sample.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.component';
+import { AllWordsComponent } from './vocabulary/all-words/all-words.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "agGridSample", pathMatch: "full" },
   // { path:'home', component: HomeComponent},
+  { path:'wordsBank', component: AllWordsComponent},
   { path:'agGridSample', component: AgGridSampleComponent},
   { path:'textToSpeech', component: TextToSpeechComponent},
   { path: 'verbs', loadChildren: () => import('./verbs/verbs.module').then(m => m.VerbsModule)},

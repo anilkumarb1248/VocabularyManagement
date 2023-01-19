@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ListResponse } from 'src/app/models/list-response';
 import { VocabularyHeader } from 'src/app/models/vocabulary-header';
 import { VocabularHeaderService } from 'src/app/services/vocabular-header.service';
 
@@ -9,47 +10,31 @@ import { VocabularHeaderService } from 'src/app/services/vocabular-header.servic
 })
 export class VocabularyHomeComponent implements OnInit {
 
-  headers: VocabularyHeader[] = new Array();
-  loadAllWordsFlag:boolean = true;
+  loadAllWordsFlag: boolean = true;
   currentSelectedHeader: VocabularyHeader = new VocabularyHeader();
+
 
   constructor(
     private vocabularHeaderService: VocabularHeaderService
-  ) { 
-  
-    let a = new VocabularyHeader();
-    a.vocabularyHeaderId = 1;
-    a.vocabularyHeader = "News"
-    this.headers.push(a);
-
-    let b = new VocabularyHeader();
-    b.vocabularyHeaderId = 2;
-    b.vocabularyHeader = "Articles"
-    this.headers.push(b);
-
-    for(let i=10;i<=100;i++){
-      let b = new VocabularyHeader();
-      b.vocabularyHeaderId = i;
-      b.vocabularyHeader = "AAAAAA_"+i
-      this.headers.push(b);
-    }
-
-  }
+  ) {}
 
   ngOnInit(): void {
-  }
-
-  onAddHeaderBtnClick():void{
     
   }
 
-  onLoadAllWordsBtnClick():void{
-     console.log("load all words");
-     this.loadAllWordsFlag = true;
+
+
+  onAddHeaderBtnClick(): void {
+
   }
 
-  
-  onHeaderItemClicked(header:VocabularyHeader):void{
+  onLoadAllWordsBtnClick(): void {
+    console.log("load all words");
+    this.loadAllWordsFlag = true;
+  }
+
+
+  onHeaderItemClicked(header: VocabularyHeader): void {
     this.loadAllWordsFlag = false;
     this.currentSelectedHeader = header;
 

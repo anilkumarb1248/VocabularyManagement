@@ -15,6 +15,13 @@ import { TextToSpeechComponent } from './demos/text-to-speech/text-to-speech.com
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatSidenavModule} from '@angular/material/sidenav'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +38,15 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    CKEditorModule
+    CKEditorModule,
+
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatIconModule,
+    MatTreeModule,
+    MatSidenavModule
+
     // NgbModule
   ],
   providers: [],

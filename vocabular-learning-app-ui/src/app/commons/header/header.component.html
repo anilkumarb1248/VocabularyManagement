@@ -1,8 +1,28 @@
-<div class="bg-main-header" style="height: 40px;position: fixed;width:99.5%;z-index: 100;">
-    <!-- <div class="bg-main-header" style="height: 40px;position: fixed;width:99.5%;z-index: 100;"> -->
-        <!-- <div class="bg-main-header" style="height: 40px;position: fixed;z-index: 100;"> -->
-        <div class="float-left">
+
+<!-- <nav mat-tab-nav-bar backgroundColor="primary"> -->
+<nav mat-tab-nav-bar backgroundColor="primary" color="warn">
+    <a mat-tab-link routerLink="/wordsBank" active="false">Words Bank</a>
+    <a mat-tab-link routerLink="/vocabulary" active="false">Vocabulary</a>
+    <a mat-tab-link routerLink="/verbs" active="false">Verbs</a>
+    <!-- <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More">
+        <mat-icon>more_vert</mat-icon>
+    </button> -->
+    <button mat-button [matMenuTriggerFor]="moreMenu">Demos</button>
+</nav>
+
+<mat-menu #moreMenu="matMenu">
+    <a mat-menu-item routerLink="/agGridSample" style="cursor: pointer;">AgGrid
+        Sample</a>
+    <a mat-menu-item routerLink="/textToSpeech" style="cursor: pointer;">Text to
+        Speech</a>
+
+</mat-menu>
+
+
+<!-- <div class="bg-main-header" style="height: 40px;position: fixed;width:99.5%;z-index: 100;">
+    <div class="float-left">
             <nav class="nav nav-tabs">
+                <a class="nav-link text-light" routerLinkActive="activebutton" routerLink="/wordsBank">Words Bank</a>
                 <a class="nav-link text-light" routerLinkActive="activebutton" routerLink="/vocabulary">Vocabulary</a>
                 <a class="nav-link text-light" routerLinkActive="activebutton" routerLink="/verbs" active>Verbs</a>
     
@@ -20,4 +40,4 @@
                 </li>
             </nav>
         </div>
-    </div>
+    </div> -->
