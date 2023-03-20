@@ -31,7 +31,7 @@ import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/images")
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.0.143:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.0.143:4200"})
 public class ImageController {
 
     //https://www.javainuse.com/fullstack/imageupload
